@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">projectMdpAI</string>
+
+    <string name="urlB">http://192.168.1.13/project_mdp_ai/master.php</string>
+    <string name="urlF"></string>
+    <string name="urlJ"></string>
+    <string name="urlC"></string>
 </resources>
