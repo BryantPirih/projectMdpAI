@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +25,7 @@ import java.util.Map;
 public class register extends AppCompatActivity {
 
     EditText username,password,confirm;
-
+    RadioButton user,dokter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class register extends AppCompatActivity {
         username = findViewById(R.id.edtUsernameRegister);
         password = findViewById(R.id.edtPasswordRegister);
         confirm = findViewById(R.id.edtConfirmRegister);
+        user = findViewById(R.id.rbUser);
+        dokter = findViewById(R.id.rbDokter);
     }
 
     public void btnRegister_Clicked(View view) {
@@ -70,6 +73,12 @@ public class register extends AppCompatActivity {
                 params.put("username",username.getText().toString());
                 params.put("password",password.getText().toString());
                 params.put("confirm",confirm.getText().toString());
+                if(user.isChecked()){
+                    params.put("role",user.getText().toString());
+                }
+                else{
+                    params.put("role",dokter.getText().toString());
+                }
                 return params;
             }
         };
