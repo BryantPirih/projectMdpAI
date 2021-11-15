@@ -1,0 +1,9 @@
+com/bryant/projectmdpai/BuildConfig.java
+ com.bryant.projectmdpai.BuildConfig
+com/bryant/projectmdpai/MainActivity.java
+ com.bryant.projectmdpai.MainActivity
+com/bryant/projectmdpai/register.java
+ com.bryant.projectmdpai.register
+ com.bryant.projectmdpai.register$1
+ com.bryant.projectmdpai.register$2
+ com.bryant.projectmdpai.register$3
