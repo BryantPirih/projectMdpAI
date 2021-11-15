@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TootCareApp">
         <activity
+            android:name=".UI.DoctorProfile"
+            android:exported="true" />
+        <activity
+            android:name=".UI.UserProfile"
+            android:exported="true" />
+        <activity
+            android:name=".UI.DoctorHome"
+            android:exported="true" />
+        <activity
+            android:name=".UI.UserHome"
+            android:exported="true" />
+        <activity
             android:name=".UI.RegisterActivity"
             android:exported="true" />
         <activity
@@ -21,7 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
