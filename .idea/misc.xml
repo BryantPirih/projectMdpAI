@@ -9,6 +9,17 @@
         <entry key="..\:/Github/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.11730072463768115" />
         <entry key="..\:/Github/projectMdpAI/app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="..\:/Github/projectMdpAI/app/src/main/res/menu/option_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_doctor_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_user_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_doctor_consult.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_doctor_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_consult.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_expert.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/doctor_nav.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/option_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/user_nav.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
