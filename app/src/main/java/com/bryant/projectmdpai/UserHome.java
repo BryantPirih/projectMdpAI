@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bryant.projectmdpai.Class.User;
+import com.bryant.projectmdpai.UserFragment.UserConsultFragment;
+import com.bryant.projectmdpai.UserFragment.UserExpertFragment;
+import com.bryant.projectmdpai.UserFragment.UserForumFragment;
 import com.bryant.projectmdpai.UserFragment.UserHomeFragment;
 import com.bryant.projectmdpai.databinding.ActivityUserHomeBinding;
 import com.google.android.material.navigation.NavigationBarView;
@@ -29,30 +32,28 @@ public class UserHome extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 String menu;
-                switch (item.getItemId()){
-                    case R.id.itm_user_forum:
-                        menu = "Forum";
-                        break;
-                    case R.id.itm_user_ask:
-                        menu = "Ask Doctor";
-                        break;
-                    case R.id.itm_user_es:
-                        menu = "Expert System";
-                        break;
-                    default:
-                        menu = "Articles";
-                        break;
+                Fragment fragment;
+                if (item.getItemId() == R.id.itm_user_article){
+                    menu = "Articles";
+                    fragment = UserHomeFragment.newInstance(menu);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
+                    return true;
+                }else if (item.getItemId() == R.id.itm_user_forum){
+                    menu = "Forum";
+                    fragment = UserForumFragment.newInstance(menu);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
+                    return true;
+                }else if (item.getItemId() == R.id.itm_user_ask){
+                    menu = "Ask Doctor";
+                    fragment = UserConsultFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
+                    return true;
+                }else{
+                    menu = "Expert System";
+                    fragment = UserExpertFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
+                    return true;
                 }
-
-                try {
-                    Fragment fragment = UserHomeFragment.newInstance(menu);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.frameLayoutUser, fragment)
-                            .commit();
-                }catch (Exception e){
-                    Log.e("MainActivity", e.getMessage());
-                }
-                return true;
             }
         });
 
