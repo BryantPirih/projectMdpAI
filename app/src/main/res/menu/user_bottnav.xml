@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itm_user_article"
+        android:title="Articles" />
+    <item
+        android:id="@+id/itm_user_forum"
+        android:title="Forum" />
+    <item
+        android:id="@+id/itm_user_ask"
+        android:title="Ask Doctor" />
+    <item
+        android:id="@+id/itm_user_es"
+        android:title="Expert System" />
+</menu>
