@@ -4,14 +4,18 @@
 
     <item
         android:id="@+id/itm_user_article"
-        android:title="Articles" />
+        android:title="Articles"
+        app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_forum"
-        android:title="Forum" />
+        android:title="Forum"
+        app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_ask"
-        android:title="Ask Doctor" />
+        android:title="Ask Doctor"
+        app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_es"
-        android:title="Expert System" />
+        android:title="Expert System"
+        app:showAsAction="always" />
 </menu>

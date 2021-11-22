@@ -55,6 +55,10 @@ public class UserHome extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (savedInstanceState == null){
+            binding.bottNavUser.setSelectedItemId(R.id.itm_user_article);
+        }
     }
 
     @Override
@@ -67,12 +71,10 @@ public class UserHome extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.option_home:
-                Intent toHome = new Intent(getApplicationContext(), UserHome.class);
-                startActivity(toHome);
+
                 break;
             case R.id.option_profile:
-                Intent toProfile = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(toProfile);
+
                 break;
             default:
                 Intent toLogin = new Intent(getApplicationContext(), MainActivity.class);
