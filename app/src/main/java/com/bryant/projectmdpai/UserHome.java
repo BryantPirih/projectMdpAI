@@ -75,7 +75,9 @@ public class UserHome extends AppCompatActivity {
 
                 break;
             case R.id.option_profile:
-
+                    Intent i = new Intent(getApplicationContext(),profile.class);
+                    startActivity(i);
+                    finish();
                 break;
             default:
                 Intent toLogin = new Intent(getApplicationContext(), MainActivity.class);
