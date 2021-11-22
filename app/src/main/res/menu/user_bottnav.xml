@@ -4,18 +4,22 @@
 
     <item
         android:id="@+id/itm_user_article"
+        android:icon="@drawable/ic_baseline_article_24"
         android:title="Articles"
         app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_forum"
+        android:icon="@drawable/ic_baseline_forum_24"
         android:title="Forum"
         app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_ask"
+        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
         android:title="Ask Doctor"
         app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_es"
+        android:icon="@drawable/ic_baseline_settings_system_daydream_24"
         android:title="Expert System"
         app:showAsAction="always" />
 </menu>
