@@ -18,32 +18,45 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bryant.projectmdpai.databinding.ActivityRegisterBinding;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class register extends AppCompatActivity {
 
-    EditText username,password,confirm;
-    RadioButton user,dokter;
+    private ActivityRegisterBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        username = findViewById(R.id.edtUsernameRegister);
-        password = findViewById(R.id.edtPasswordRegister);
-        confirm = findViewById(R.id.edtConfirmRegister);
-        user = findViewById(R.id.rbUser);
-        dokter = findViewById(R.id.rbDokter);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnRegister_Clicked();
+            }
+        });
+
+        binding.btnToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnToLogin_Clicked();
+            }
+        });
     }
 
-    public void btnRegister_Clicked(View view) {
-        if (TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(password.getText().toString())
-        || TextUtils.isEmpty(confirm.getText().toString())){
-            Toast.makeText(this, "harap isi semua data terlebih dahulu", Toast.LENGTH_SHORT).show();
-        }
-        else{
+    public void btnRegister_Clicked() {
+        if (TextUtils.isEmpty(binding.edtUsernameRegister.getText().toString())
+                || TextUtils.isEmpty(binding.edtPasswordRegister.getText().toString())
+                || TextUtils.isEmpty(binding.edtEmailRegister.getText().toString())
+                || TextUtils.isEmpty(binding.edtAddressRegister.getText().toString())){
+            makeToast("Harap isi semua data terlebih dahulu!");
+        }else if(!binding.edtPasswordRegister.getText().toString().equals(binding.edtConfirmRegister.getText().toString())){
+            makeToast("Password Tidak Cocok!");
+        }else{
             register();
         }
     }
@@ -70,14 +83,14 @@ public class register extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put("function","register");
-                params.put("username",username.getText().toString());
-                params.put("password",password.getText().toString());
-                params.put("confirm",confirm.getText().toString());
-                if(user.isChecked()){
-                    params.put("role",user.getText().toString());
+                params.put("username", binding.edtUsernameRegister.getText().toString());
+                params.put("password", binding.edtPasswordRegister.getText().toString());
+                params.put("confirm", binding.edtConfirmRegister.getText().toString());
+                if(binding.rbUser.isChecked()){
+                    params.put("role", binding.rbUser.getText().toString());
                 }
                 else{
-                    params.put("role",dokter.getText().toString());
+                    params.put("role", binding.rbDokter.getText().toString());
                 }
                 return params;
             }
@@ -86,9 +99,13 @@ public class register extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    public void btnToLogin_Clicked(View view) {
+    public void btnToLogin_Clicked() {
         Intent i = new Intent(register.this,MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    void makeToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

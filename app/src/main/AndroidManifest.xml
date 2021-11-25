@@ -13,10 +13,18 @@
         android:theme="@style/Theme.ProjectMdpAI"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".DoctorHome"
+            android:name=".DoctorProfile"
             android:exported="true" />
         <activity
+            android:name=".DoctorHome"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".UserHome"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".profile"
             android:exported="true" />
         <activity
             android:name=".register"

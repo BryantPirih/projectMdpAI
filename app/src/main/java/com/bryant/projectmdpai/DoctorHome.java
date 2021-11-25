@@ -68,7 +68,7 @@ public class DoctorHome extends AppCompatActivity {
                 finish();
                 break;
             case R.id.option_profile:
-                Intent toProfile = new Intent(getApplicationContext(), profile.class);
+                Intent toProfile = new Intent(getApplicationContext(), DoctorProfile.class);
                 startActivity(toProfile);
                 finish();
                 break;
