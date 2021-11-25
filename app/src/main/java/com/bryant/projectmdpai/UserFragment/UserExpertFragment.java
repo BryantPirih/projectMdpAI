@@ -2,6 +2,8 @@ package com.bryant.projectmdpai.UserFragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,42 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bryant.projectmdpai.R;
+import com.bryant.projectmdpai.databinding.FragmentUserExpertBinding;
+import com.bryant.projectmdpai.databinding.FragmentUserForumBinding;
 import com.github.cschen1205.ess.engine.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserExpertFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserExpertFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM_MENU = "param-menu";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentUserExpertBinding binding;
+    private String menu;
 
     public UserExpertFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment UserExpertFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserExpertFragment newInstance() {
+    public static UserExpertFragment newInstance(String paramMenu) {
         UserExpertFragment fragment = new UserExpertFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM_MENU, paramMenu);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,16 +42,22 @@ public class UserExpertFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            menu = getArguments().getString(ARG_PARAM_MENU);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_expert, container, false);
+
+        binding = FragmentUserExpertBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     ///////////////////////// EXPERT SYSTEM SHELL ///////////////////////////////
 
