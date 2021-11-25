@@ -64,6 +64,7 @@ public class register extends AppCompatActivity {
     void registerWithFirebase() {
         String username = binding.edtUsernameRegister.getText().toString().trim();
         String email = binding.edtEmailRegister.getText().toString().trim();
+        String full = binding.edtFullName.getText().toString().trim();
         String address = binding.edtAddressRegister.getText().toString().trim();
         String password = binding.edtPasswordRegister.getText().toString().trim();
         String password_confirmation = binding.edtConfirmRegister.getText().toString().trim();
@@ -77,6 +78,11 @@ public class register extends AppCompatActivity {
         if(email.isEmpty()){
             binding.edtEmailRegister.setError("Email is required!");
             binding.edtEmailRegister.requestFocus();
+            return;
+        }
+        if (full.isEmpty()){
+            binding.edtFullName.setText("Full name is required!");
+            binding.edtFullName.requestFocus();
             return;
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
@@ -135,57 +141,57 @@ public class register extends AppCompatActivity {
         });
     }
 
-    void btnRegister_Clicked(){
-        //ga tak pake
-        if (TextUtils.isEmpty(binding.edtUsernameRegister.getText().toString())
-                || TextUtils.isEmpty(binding.edtPasswordRegister.getText().toString())
-                || TextUtils.isEmpty(binding.edtEmailRegister.getText().toString())
-                || TextUtils.isEmpty(binding.edtAddressRegister.getText().toString())){
-            makeToast("Harap isi semua data terlebih dahulu!");
-        }else if(!binding.edtPasswordRegister.getText().toString().equals(binding.edtConfirmRegister.getText().toString())){
-            makeToast("Password Tidak Cocok!");
-        }else{
-            register();
-        }
-    }
+//    void btnRegister_Clicked(){
+//        //ga tak pake
+//        if (TextUtils.isEmpty(binding.edtUsernameRegister.getText().toString())
+//                || TextUtils.isEmpty(binding.edtPasswordRegister.getText().toString())
+//                || TextUtils.isEmpty(binding.edtEmailRegister.getText().toString())
+//                || TextUtils.isEmpty(binding.edtAddressRegister.getText().toString())){
+//            makeToast("Harap isi semua data terlebih dahulu!");
+//        }else if(!binding.edtPasswordRegister.getText().toString().equals(binding.edtConfirmRegister.getText().toString())){
+//            makeToast("Password Tidak Cocok!");
+//        }else{
+//            register();
+//        }
+//    }
 
-    public void register(){
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                getResources().getString(R.string.urlB),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.getMessage());
-                    }
-                }
-        ){
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("function","register");
-                params.put("username", binding.edtUsernameRegister.getText().toString());
-                params.put("password", binding.edtPasswordRegister.getText().toString());
-                params.put("confirm", binding.edtConfirmRegister.getText().toString());
-                if(binding.rbUser.isChecked()){
-                    params.put("role", binding.rbUser.getText().toString());
-                }
-                else{
-                    params.put("role", binding.rbDokter.getText().toString());
-                }
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
+//    public void register(){
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.POST,
+//                getResources().getString(R.string.urlB),
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        System.out.println(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        System.out.println(error.getMessage());
+//                    }
+//                }
+//        ){
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String,String> params = new HashMap<>();
+//                params.put("function","register");
+//                params.put("username", binding.edtUsernameRegister.getText().toString());
+//                params.put("password", binding.edtPasswordRegister.getText().toString());
+//                params.put("confirm", binding.edtConfirmRegister.getText().toString());
+//                if(binding.rbUser.isChecked()){
+//                    params.put("role", binding.rbUser.getText().toString());
+//                }
+//                else{
+//                    params.put("role", binding.rbDokter.getText().toString());
+//                }
+//                return params;
+//            }
+//        };
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
+//    }
 
     public void btnToLogin_Clicked() {
         Intent i = new Intent(register.this,MainActivity.class);
