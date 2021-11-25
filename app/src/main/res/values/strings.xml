@@ -5,6 +5,8 @@
     <string name="urlF"></string>
     <string name="urlJ"></string>
     <string name="urlC"></string>
+
+    <string name="url_db">https://mdp-project-9db6f-default-rtdb.asia-southeast1.firebasedatabase.app</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

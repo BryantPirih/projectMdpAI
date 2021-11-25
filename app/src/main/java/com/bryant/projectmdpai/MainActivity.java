@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnLoginClicked(View v){
-        root = FirebaseDatabase.getInstance();
+        root = FirebaseDatabase.getInstance(getString(R.string.url_db));
         reference = root.getReference("users");
+        System.out.println(reference);
         reference.setValue("user");
 //        reference.child().child();
     }
