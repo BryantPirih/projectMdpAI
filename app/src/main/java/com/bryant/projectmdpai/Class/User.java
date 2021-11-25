@@ -6,10 +6,46 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     private int id;
     private String username;
-    private String name;
+    private String email;
+    private String address;
     private String password;
     private String role; // user/doctor
     private float rating; // 0 - 5.0
+
+    public User() {
+
+    }
+
+    public User(String username, String email, String address, String password, String role, float rating) {
+        this.username = username;
+        this.email = email;
+        this.address = address;
+        this.password = password;
+        this.role = role;
+        this.rating = rating;
+    }
+
+    protected User(Parcel in) {
+        id = in.readInt();
+        username = in.readString();
+        email = in.readString();
+        address = in.readString();
+        password = in.readString();
+        role = in.readString();
+        rating = in.readFloat();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -25,14 +61,6 @@ public class User implements Parcelable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPassword() {
@@ -59,35 +87,21 @@ public class User implements Parcelable {
         this.rating = rating;
     }
 
-    public User(int id, String username, String name, String password, String role, float rating) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.role = role;
-        this.rating = rating;
+    public String getEmail() {
+        return email;
     }
 
-    protected User(Parcel in) {
-        id = in.readInt();
-        username = in.readString();
-        name = in.readString();
-        password = in.readString();
-        role = in.readString();
-        rating = in.readFloat();
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
+    public String getAddress() {
+        return address;
+    }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     @Override
     public int describeContents() {
@@ -98,7 +112,8 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeString(username);
-        parcel.writeString(name);
+        parcel.writeString(email);
+        parcel.writeString(address);
         parcel.writeString(password);
         parcel.writeString(role);
         parcel.writeFloat(rating);
