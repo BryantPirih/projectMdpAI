@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "133350508057",
+    "project_id": "mdp-project-9db6f",
+    "storage_bucket": "mdp-project-9db6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133350508057:android:482226b2d40f318db60c88",
+        "android_client_info": {
+          "package_name": "com.bryant.projectmdpai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133350508057-cslof8g4ce5d6ie1s40v2rm4mms6gpuu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtJwR3Oz6WiUr9op3sqv7DZ7O_gKDzQBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133350508057-cslof8g4ce5d6ie1s40v2rm4mms6gpuu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

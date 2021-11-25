@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+public class MainActivity extends AppCompatActivity {
+    FirebaseDatabase root;
+    DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,5 +22,12 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this,register.class);
         startActivity(i);
         finish();
+    }
+
+    public void btnLoginClicked(View v){
+        root = FirebaseDatabase.getInstance();
+        reference = root.getReference("users");
+        reference.setValue("user");
+//        reference.child().child();
     }
 }
