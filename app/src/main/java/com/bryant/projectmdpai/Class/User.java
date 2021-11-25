@@ -7,6 +7,7 @@ public class User implements Parcelable {
     private int id;
     private String username;
     private String email;
+    private String full_name;
     private String address;
     private String password;
     private String role; // user/doctor
@@ -16,9 +17,18 @@ public class User implements Parcelable {
 
     }
 
-    public User(String username, String email, String address, String password, String role, float rating) {
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public User( String username, String email, String full_name, String address, String password, String role, float rating) {
         this.username = username;
         this.email = email;
+        this.full_name = full_name;
         this.address = address;
         this.password = password;
         this.role = role;
@@ -29,6 +39,7 @@ public class User implements Parcelable {
         id = in.readInt();
         username = in.readString();
         email = in.readString();
+        full_name = in.readString();
         address = in.readString();
         password = in.readString();
         role = in.readString();
@@ -113,6 +124,7 @@ public class User implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(username);
         parcel.writeString(email);
+        parcel.writeString(full_name);
         parcel.writeString(address);
         parcel.writeString(password);
         parcel.writeString(role);
