@@ -9,4 +9,14 @@
     <string name="url_db">https://mdp-project-9db6f-default-rtdb.asia-southeast1.firebasedatabase.app</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="listKota">
+        <item>Kota 1</item>
+        <item>Kota 2</item>
+        <item>Kota 3</item>
+    </string-array>
+    <string-array name="listPractice">
+        <item>13.00 - 15.00</item>
+        <item>16.00 - 18.00</item>
+        <item>19.00 - 21.00</item>
+    </string-array>
 </resources>
