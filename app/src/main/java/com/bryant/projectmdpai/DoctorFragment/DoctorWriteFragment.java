@@ -11,21 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bryant.projectmdpai.R;
-import com.bryant.projectmdpai.UserFragment.UserHomeFragment;
-import com.bryant.projectmdpai.databinding.FragmentDoctorHomeBinding;
+import com.bryant.projectmdpai.databinding.FragmentDoctorWriteBinding;
 
-public class DoctorHomeFragment extends Fragment {
+public class DoctorWriteFragment extends Fragment {
 
-    private FragmentDoctorHomeBinding binding;
-    private String menu;
-    private Fragment fragment;
+    private FragmentDoctorWriteBinding binding;
 
-    public DoctorHomeFragment() {
+    public DoctorWriteFragment() {
         // Required empty public constructor
     }
 
-    public static DoctorHomeFragment newInstance() {
-        DoctorHomeFragment fragment = new DoctorHomeFragment();
+    public static DoctorWriteFragment newInstance() {
+        DoctorWriteFragment fragment = new DoctorWriteFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -41,20 +38,12 @@ public class DoctorHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentDoctorHomeBinding.inflate(inflater, container, false);
+        binding = FragmentDoctorWriteBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.btnAddArticle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragment = DoctorWriteFragment.newInstance();
-                getParentFragmentManager().beginTransaction().replace(R.id.frameLayoutDoctor, fragment).commit();
-            }
-        });
     }
 }

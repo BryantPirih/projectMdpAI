@@ -25,17 +25,23 @@
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/user_nav.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/drawable/ic_baseline_article_24.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/drawable/ic_baseline_forum_24.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/drawable/ic_baseline_live_help_24.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/drawable/ic_baseline_settings_system_daydream_24.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/drawable/ic_baseline_supervised_user_circle_24.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_add_question_forum.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_doctor_home.xml" value="0.3484375" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_doctor_write_article.xml" value="0.3484375" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_profile.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_register.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/activity_user_home.xml" value="0.3625" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_doctor_consult.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_doctor_home.xml" value="0.3625" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_doctor_write.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_user_consult.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_user_forum.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/layout/fragment_user_home.xml" value="0.3625" />
+        <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/menu/doctor_bottnac.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/menu/option_menu.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/menu/user_bottnav.xml" value="0.3625" />
         <entry key="..\:/Users/joshuanando/Documents/GitHub/projectMdpAI/app/src/main/res/menu/user_nav.xml" value="0.3625" />

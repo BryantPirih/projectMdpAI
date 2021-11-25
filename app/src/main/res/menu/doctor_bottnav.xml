@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itm_doc_article"
+        android:icon="@drawable/ic_baseline_article_24"
+        android:title="Articles"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itm_doc_forum"
+        android:icon="@drawable/ic_baseline_forum_24"
+        android:title="Forum"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itm_doc_req"
+        android:icon="@drawable/ic_baseline_live_help_24"
+        android:title="Requests"
+        app:showAsAction="always" />
+</menu>
