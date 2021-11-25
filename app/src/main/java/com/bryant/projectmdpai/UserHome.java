@@ -45,12 +45,12 @@ public class UserHome extends AppCompatActivity {
                     return true;
                 }else if (item.getItemId() == R.id.itm_user_ask){
                     menu = "Ask Doctor";
-                    fragment = UserConsultFragment.newInstance();
+                    fragment = UserConsultFragment.newInstance(menu);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
                     return true;
                 }else{
                     menu = "Expert System";
-                    fragment = UserExpertFragment.newInstance();
+                    fragment = UserExpertFragment.newInstance(menu);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
                     return true;
                 }

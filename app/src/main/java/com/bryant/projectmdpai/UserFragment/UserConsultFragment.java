@@ -9,36 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bryant.projectmdpai.R;
+import com.bryant.projectmdpai.databinding.FragmentUserConsultBinding;
+import com.bryant.projectmdpai.databinding.FragmentUserForumBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserConsultFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserConsultFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM_MENU = "param-menu";
 
-    // TODO: Rename and change types of parameters
+    private FragmentUserConsultBinding binding;
+    private String menu;
 
 
     public UserConsultFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment UserConsultFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserConsultFragment newInstance() {
+    public static UserConsultFragment newInstance(String paramMenu) {
         UserConsultFragment fragment = new UserConsultFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM_MENU, paramMenu);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,13 +36,14 @@ public class UserConsultFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            menu = getArguments().getString(ARG_PARAM_MENU);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_consult, container, false);
+        binding = FragmentUserConsultBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }

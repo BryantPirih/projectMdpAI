@@ -55,9 +55,10 @@ public class UserHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.txtTitle.setText(menu);
+        //binding.txtTitle.setText(menu);
     }
 
     void setUpRecyclerView(){
+
     }
 }
