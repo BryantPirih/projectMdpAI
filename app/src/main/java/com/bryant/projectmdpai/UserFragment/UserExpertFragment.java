@@ -10,12 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bryant.projectmdpai.R;
+import com.bryant.projectmdpai.Class.ExpertSystem.Facts;
+import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
+import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
 import com.bryant.projectmdpai.databinding.FragmentUserExpertBinding;
-import com.bryant.projectmdpai.databinding.FragmentUserForumBinding;
 import com.github.cschen1205.ess.engine.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -25,6 +32,10 @@ public class UserExpertFragment extends Fragment {
 
     private FragmentUserExpertBinding binding;
     private String menu;
+
+    private ArrayList<Rules> rules=new ArrayList<>();
+    private ArrayList<Facts> facts=new ArrayList<>();
+    private ArrayList<QuestionES> questions=new ArrayList<>();
 
     public UserExpertFragment() {
         // Required empty public constructor
@@ -49,7 +60,6 @@ public class UserExpertFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentUserExpertBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -57,6 +67,98 @@ public class UserExpertFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //CALL TO READ DATA FROM DB
+        readData( new FirebaseCallback() {
+            @Override
+            public void onCallbackRules(ArrayList<Rules> list) {
+                rules=list;
+            }
+            @Override
+            public void onCallbackFacts(ArrayList<Facts> list) {
+                facts=list;
+            }
+            @Override
+            public void onCallbackQuestion(ArrayList<QuestionES> list) {
+                questions=list;
+            }
+        });
+    }
+
+
+    // GET DATAS FROM DB
+    private void readData(FirebaseCallback firebaseCallback){
+        //rules
+        DatabaseReference root = FirebaseDatabase
+                .getInstance("https://mdp-project-9db6f-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getReference();
+        DatabaseReference RuleRef = root.child("es/rules");
+        RuleRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Loading rules...");
+                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
+                    try {
+                        String name = ds.child("rulename").getValue().toString();
+                        String variable = ds.child("variable").getValue().toString();
+                        rules.add(new Rules(name,variable));
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                firebaseCallback.onCallbackRules(rules);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        //Facts
+        DatabaseReference FactsRef = root.child("es/facts");
+        FactsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Loading facts...");
+                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
+                    try {
+                        String var = ds.getKey();
+                        String value = ds.getValue().toString();
+                        facts.add(new Facts(var,value));
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                firebaseCallback.onCallbackFacts(facts);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        //Questions
+        DatabaseReference questionsRef = root.child("es/questions");
+        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Loading questions...");
+                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
+                    try {
+                        String var = ds.getKey();
+                        String value = ds.getValue().toString();
+                        questions.add(new QuestionES(var,value));
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                firebaseCallback.onCallbackQuestion(questions);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    private interface FirebaseCallback{
+        void onCallbackRules(ArrayList<Rules> list);
+        void onCallbackQuestion(ArrayList<QuestionES> list);
+        void onCallbackFacts(ArrayList<Facts> list);
     }
 
     ///////////////////////// EXPERT SYSTEM SHELL ///////////////////////////////
