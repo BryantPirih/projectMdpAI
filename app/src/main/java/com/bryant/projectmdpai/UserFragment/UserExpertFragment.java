@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bryant.projectmdpai.Class.ExpertSystem.Facts;
 import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
 import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
 import com.bryant.projectmdpai.databinding.FragmentUserExpertBinding;
@@ -34,7 +33,6 @@ public class UserExpertFragment extends Fragment {
     private String menu;
 
     private ArrayList<Rules> rules=new ArrayList<>();
-    private ArrayList<Facts> facts=new ArrayList<>();
     private ArrayList<QuestionES> questions=new ArrayList<>();
 
     private RuleInferenceEngine rie;
@@ -84,10 +82,6 @@ public class UserExpertFragment extends Fragment {
                 rules=list;
             }
             @Override
-            public void onCallbackFacts(ArrayList<Facts> list) {
-                facts=list;
-            }
-            @Override
             public void onCallbackQuestion(ArrayList<QuestionES> list) {
                 questions=list;
             }
@@ -113,7 +107,7 @@ public class UserExpertFragment extends Fragment {
     }
 
     private void startES(){
-        if (rules.isEmpty()||facts.isEmpty()||questions.isEmpty()){ //only starts when all data is not empty
+        if (rules.isEmpty()||questions.isEmpty()){ //only starts when all data is not empty
             return;
         }
         rie=getInferenceEngine();
@@ -242,27 +236,6 @@ public class UserExpertFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        //Facts
-        DatabaseReference FactsRef = root.child("es/facts");
-        FactsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("Loading facts...");
-                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
-                    try {
-                        String var = ds.getKey();
-                        String value = ds.getValue().toString();
-                        facts.add(new Facts(var,value));
-                    }catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-                firebaseCallback.onCallbackFacts(facts);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-
         //Questions
         DatabaseReference questionsRef = root.child("es/questions");
         questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -288,31 +261,34 @@ public class UserExpertFragment extends Fragment {
     private interface FirebaseCallback{
         void onCallbackRules(ArrayList<Rules> list);
         void onCallbackQuestion(ArrayList<QuestionES> list);
-        void onCallbackFacts(ArrayList<Facts> list);
     }
 
-    private RuleInferenceEngine getInferenceEngine() //initiate rules here
+    private RuleInferenceEngine getInferenceEngine()
     {
         RuleInferenceEngine rie=new KieRuleInferenceEngine();
+        //add empty rule
         for (Rules r:rules) {
+            Rule rule=new Rule(r.getRulename());
             boolean exist=false;
-            //create new rule
-            Rule rule = new Rule(r.getRulename());
-            rule.addAntecedent(new EqualsClause(r.getVariable(), r.getValue()));
-            updateRule(r, rule);
-
-            //if rule already exist, update existing antecedent
-            for (int i = 0; i < rie.getRules().size(); i++) {
-                if(r.getRulename().equals(rie.getRules().get(i).getName())){
+            for (Rule ru:rie.getRules()) {
+                if (ru.getName().equals(r.getRulename())){
                     exist=true;
-                    updateRule(r, rie.getRules().get(i));
-                    break;
                 }
             }
             if (!exist){
                 rie.addRule(rule);
             }
         }
+        //add rule clauses
+        for (Rules r:rules){
+            for (Rule ru:rie.getRules()) {
+                if (ru.getName().equals(r.getRulename())) {
+                    updateRule(r, ru);
+                }
+            }
+//            System.out.println(r.getRulename()+":"+r.getVariable()+r.getCondition()+r.getValue());
+        }
+        System.out.println(rie.getRules());
         return rie;
     }
 
