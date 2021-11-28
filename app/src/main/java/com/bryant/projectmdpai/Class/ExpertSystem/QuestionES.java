@@ -1,20 +1,20 @@
 package com.bryant.projectmdpai.Class.ExpertSystem;
 
 public class QuestionES {
-    String foreginvariable;
+    String foreignvariable;
     String question;
 
-    public QuestionES(String foreginvariable, String question) {
-        this.foreginvariable = foreginvariable;
+    public QuestionES(String foreignvariable, String question) {
+        this.foreignvariable = foreignvariable;
         this.question = question;
     }
 
-    public String getForeginvariable() {
-        return foreginvariable;
+    public String getForeignvariable() {
+        return foreignvariable;
     }
 
-    public void setForeginvariable(String foreginvariable) {
-        this.foreginvariable = foreginvariable;
+    public void setForeignvariable(String foreignvariable) {
+        this.foreignvariable = foreignvariable;
     }
 
     public String getQuestion() {

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bryant.projectmdpai.Class.ExpertSystem.Facts;
 import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
@@ -22,8 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Stack;
 import java.util.Vector;
 
 public class UserExpertFragment extends Fragment {
@@ -36,6 +36,15 @@ public class UserExpertFragment extends Fragment {
     private ArrayList<Rules> rules=new ArrayList<>();
     private ArrayList<Facts> facts=new ArrayList<>();
     private ArrayList<QuestionES> questions=new ArrayList<>();
+
+    private RuleInferenceEngine rie;
+    private Vector<Clause> unproved_conditions;
+    private Clause conclusion;
+    private Clause c;
+    private boolean finished;
+    private String goal = "vehicle";
+    private Stack<RuleInferenceEngine> pastRie;
+
 
     public UserExpertFragment() {
         // Required empty public constructor
@@ -83,8 +92,119 @@ public class UserExpertFragment extends Fragment {
                 questions=list;
             }
         });
+        binding.buttonESNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFact();
+            }
+        });
+        binding.buttonESStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startES();
+            }
+        });
+        binding.buttonESBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                undo();
+            }
+        });
     }
 
+    private void startES(){
+        if (rules.isEmpty()||facts.isEmpty()||questions.isEmpty()){ //only starts when all data is not empty
+            return;
+        }
+        rie=getInferenceEngine();
+        unproved_conditions= new Vector<>();
+        pastRie =new Stack<>();
+        conclusion=null;
+        c = null;
+        finished=false;
+        rie.clearFacts();
+        toggleVisibility();
+        nextQuestion();
+    }
+
+    public void nextQuestion(){
+        conclusion=rie.infer( goal , unproved_conditions);
+        if(unproved_conditions.size()>0)
+        {
+            c=unproved_conditions.get(0);
+            System.out.println("ask: "+c+"?");
+            unproved_conditions.clear();
+            binding.edtESAnswer.setHint("Your Answer (prediction : "+c+"?)");
+            binding.tvESQuestion.setText(getQuestion(c.getVariable()));
+        }else{
+            finished=true;
+            toggleVisibility();
+        }
+        showResult();
+    }
+    public String getQuestion(String variable){
+        //search in list of questions
+        return variable+" ?";
+    }
+
+    public void addFact(){
+        String input = binding.edtESAnswer.getText().toString();
+        if (input.equals(""))
+        {
+            Toast.makeText(getActivity(), "Input kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        pastRie.push(rie);
+        rie.addFact(new EqualsClause(c.getVariable(), input));
+        binding.edtESAnswer.setText("");
+        toggleVisibility();
+        nextQuestion();
+    }
+
+    public void undo(){
+        if (!pastRie.isEmpty()){
+            rie = pastRie.pop();
+            toggleVisibility();
+            nextQuestion();
+        }
+    }
+
+    public void showResult(){
+        String con="";
+        String memory = "Memory : "+rie.getFacts();
+        if (finished){
+            if (conclusion==null){
+                con = "Conclusion : Sorry, we cannot find solution from our database\n\n";
+            }else{
+                con = "Conclusion : "+conclusion+"\n\n";
+            }
+        }
+        binding.tvESConclusion.setText(con+memory);
+    }
+
+    public void toggleVisibility(){
+        if(finished){
+            binding.buttonESBack.setVisibility(View.INVISIBLE);
+            binding.buttonESNext.setVisibility(View.INVISIBLE);
+            binding.edtESAnswer.setVisibility(View.INVISIBLE);
+            binding.tvESQuestion.setVisibility(View.INVISIBLE);
+            binding.textView39.setVisibility(View.INVISIBLE);
+            binding.buttonESStart.setVisibility(View.VISIBLE);
+        }else{
+            binding.buttonESStart.setVisibility(View.INVISIBLE);
+            binding.buttonESNext.setVisibility(View.VISIBLE);
+            if  (!pastRie.isEmpty()){
+                //binding.buttonESBack.setVisibility(View.VISIBLE);
+            }else{
+                binding.buttonESBack.setVisibility(View.INVISIBLE);
+            }
+            binding.edtESAnswer.setVisibility(View.VISIBLE);
+            binding.tvESQuestion.setVisibility(View.VISIBLE);
+            binding.textView39.setVisibility(View.VISIBLE);
+            binding.textView41.setVisibility(View.VISIBLE);
+            binding.tvESConclusion.setVisibility(View.VISIBLE);
+        }
+    }
 
     // GET DATAS FROM DB
     private void readData(FirebaseCallback firebaseCallback){
@@ -101,7 +221,8 @@ public class UserExpertFragment extends Fragment {
                     try {
                         String name = ds.child("rulename").getValue().toString();
                         String variable = ds.child("variable").getValue().toString();
-                        rules.add(new Rules(name,variable));
+                        String value = ds.child("value").getValue().toString();
+                        rules.add(new Rules(name,variable,value));
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -161,11 +282,19 @@ public class UserExpertFragment extends Fragment {
         void onCallbackFacts(ArrayList<Facts> list);
     }
 
-    ///////////////////////// EXPERT SYSTEM SHELL ///////////////////////////////
-
     private RuleInferenceEngine getInferenceEngine() //initiate rules here
     {
         RuleInferenceEngine rie=new KieRuleInferenceEngine();
+
+        for (Rules r:rules) {
+            Rule rule=new Rule(r.getRulename());
+
+            rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
+            rule.addAntecedent(new EqualsClause("num_wheels", "2"));
+            rule.addAntecedent(new EqualsClause("motor", "no"));
+            rule.setConsequent(new EqualsClause("vehicle", "Bicycle"));
+            rie.addRule(rule);
+        }
 
         Rule rule=new Rule("Bicycle");
         rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
@@ -225,69 +354,14 @@ public class UserExpertFragment extends Fragment {
         rule.addAntecedent(new EqualsClause("num_wheels", "4"));
         rule.addAntecedent(new EqualsClause("motor", "yes"));
         rule.setConsequent(new EqualsClause("vehicleType", "automobile"));
+
         rie.addRule(rule);
 
         return rie;
     }
 
-    public void testBackwardChain() // simple, conclude from the facts given
-    {
-        RuleInferenceEngine rie=getInferenceEngine();
-        rie.addFact(new EqualsClause("num_wheels", "4"));
-        rie.addFact(new EqualsClause("motor", "no"));
-        rie.addFact(new EqualsClause("num_doors", "3"));
-        rie.addFact(new EqualsClause("size", "medium"));
-
-        System.out.println("Infer: vehicle");
-
-        Vector<Clause> unproved_conditions= new Vector<>();
-
-        Clause conclusion=rie.infer("vehicle", unproved_conditions);
-
-        System.out.println("Conclusion: "+conclusion);
-    }
-
-    public void demoBackwardChainWithNullMemory() //ada user input
-    {
-        RuleInferenceEngine rie=getInferenceEngine();
-
-        System.out.println("Infer with All Facts Cleared:");
-        rie.clearFacts();
-
-        Vector<Clause> unproved_conditions= new Vector<>();
-
-        Clause conclusion=null;
-        while(conclusion==null)
-        {
-            conclusion=rie.infer("vehicle", unproved_conditions);
-            if(conclusion==null)
-            {
-                if(unproved_conditions.size()==0)
-                {
-                    break;
-                }
-                Clause c=unproved_conditions.get(0);
-                System.out.println("ask: "+c+"?");
-                unproved_conditions.clear();
-                String value=showInputDialog("What is "+c.getVariable()+"?");
-                rie.addFact(new EqualsClause(c.getVariable(), value));
-            }
-        }
-
-        System.out.println("Conclusion: "+conclusion);
-        System.out.println("Memory: ");
-        System.out.println(rie.getFacts());
-    }
-
-    private String showInputDialog(String question) //ask question
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(question + " ");
-        return scanner.next();
-    }
-
+    ///
     private ArrayList<String> options(String type){ //mendapat pilihan di question tertentu
-        //setup options
         ArrayList<String> opt = new ArrayList<>();
         if (type.equalsIgnoreCase("yesno")){
             opt.add("Yes");

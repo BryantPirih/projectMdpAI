@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".DoctorHome">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottNavDoctor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
