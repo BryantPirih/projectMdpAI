@@ -4,11 +4,37 @@ public class Rules {
     String rulename;
     String variable;
     String value;
+    String condition;
+    String subGoal="";
 
-    public Rules(String rulename, String variable,String value) {
+    public Rules(String rulename, String variable,String value,String condition) {
         this.rulename = rulename;
         this.variable = variable;
         this.value = value;
+        this.condition = condition;
+    }
+    public Rules(String rulename, String variable,String value,String condition,String subGoal) {
+        this.rulename = rulename;
+        this.variable = variable;
+        this.value = value;
+        this.condition = condition;
+        this.subGoal = subGoal;
+    }
+
+    public String getSubGoal() {
+        return subGoal;
+    }
+
+    public void setSubGoal(String subGoal) {
+        this.subGoal = subGoal;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public String getRulename() {

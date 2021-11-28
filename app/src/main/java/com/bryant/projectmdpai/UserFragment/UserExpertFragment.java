@@ -222,7 +222,16 @@ public class UserExpertFragment extends Fragment {
                         String name = ds.child("rulename").getValue().toString();
                         String variable = ds.child("variable").getValue().toString();
                         String value = ds.child("value").getValue().toString();
-                        rules.add(new Rules(name,variable,value));
+                        String condition ="=";
+                        if (ds.hasChild("condition")){
+                            condition = ds.child("condition").getValue().toString();
+                        }
+                        if(ds.hasChild("subGoal")){
+                            String subGoal = ds.child("subGoal").getValue().toString();
+                            rules.add(new Rules(name,variable,value,condition,subGoal));
+                        }else{
+                            rules.add(new Rules(name,variable,value,condition));
+                        }
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -285,79 +294,41 @@ public class UserExpertFragment extends Fragment {
     private RuleInferenceEngine getInferenceEngine() //initiate rules here
     {
         RuleInferenceEngine rie=new KieRuleInferenceEngine();
-
         for (Rules r:rules) {
-            Rule rule=new Rule(r.getRulename());
+            boolean exist=false;
+            //create new rule
+            Rule rule = new Rule(r.getRulename());
+            rule.addAntecedent(new EqualsClause(r.getVariable(), r.getValue()));
+            updateRule(r, rule);
 
-            rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
-            rule.addAntecedent(new EqualsClause("num_wheels", "2"));
-            rule.addAntecedent(new EqualsClause("motor", "no"));
-            rule.setConsequent(new EqualsClause("vehicle", "Bicycle"));
-            rie.addRule(rule);
+            //if rule already exist, update existing antecedent
+            for (int i = 0; i < rie.getRules().size(); i++) {
+                if(r.getRulename().equals(rie.getRules().get(i).getName())){
+                    exist=true;
+                    updateRule(r, rie.getRules().get(i));
+                    break;
+                }
+            }
+            if (!exist){
+                rie.addRule(rule);
+            }
         }
-
-        Rule rule=new Rule("Bicycle");
-        rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
-        rule.addAntecedent(new EqualsClause("num_wheels", "2"));
-        rule.addAntecedent(new EqualsClause("motor", "no"));
-        rule.setConsequent(new EqualsClause("vehicle", "Bicycle"));
-        rie.addRule(rule);
-
-        rule=new Rule("Tricycle");
-        rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
-        rule.addAntecedent(new EqualsClause("num_wheels", "3"));
-        rule.addAntecedent(new EqualsClause("motor", "no"));
-        rule.setConsequent(new EqualsClause("vehicle", "Tricycle"));
-        rie.addRule(rule);
-
-        rule=new Rule("Motorcycle");
-        rule.addAntecedent(new EqualsClause("vehicleType", "cycle"));
-        rule.addAntecedent(new EqualsClause("num_wheels", "2"));
-        rule.addAntecedent(new EqualsClause("motor", "yes"));
-        rule.setConsequent(new EqualsClause("vehicle", "Motorcycle"));
-        rie.addRule(rule);
-
-        rule=new Rule("SportsCar");
-        rule.addAntecedent(new EqualsClause("vehicleType", "automobile"));
-        rule.addAntecedent(new EqualsClause("size", "medium"));
-        rule.addAntecedent(new EqualsClause("num_doors", "2"));
-        rule.setConsequent(new EqualsClause("vehicle", "Sports_Car"));
-        rie.addRule(rule);
-
-        rule=new Rule("Sedan");
-        rule.addAntecedent(new EqualsClause("vehicleType", "automobile"));
-        rule.addAntecedent(new EqualsClause("size", "medium"));
-        rule.addAntecedent(new EqualsClause("num_doors", "4"));
-        rule.setConsequent(new EqualsClause("vehicle", "Sedan"));
-        rie.addRule(rule);
-
-        rule=new Rule("MiniVan");
-        rule.addAntecedent(new EqualsClause("vehicleType", "automobile"));
-        rule.addAntecedent(new EqualsClause("size", "medium"));
-        rule.addAntecedent(new EqualsClause("num_doors", "3"));
-        rule.setConsequent(new EqualsClause("vehicle", "MiniVan"));
-        rie.addRule(rule);
-
-        rule=new Rule("SUV");
-        rule.addAntecedent(new EqualsClause("vehicleType", "automobile"));
-        rule.addAntecedent(new EqualsClause("size", "large"));
-        rule.addAntecedent(new EqualsClause("num_doors", "4"));
-        rule.setConsequent(new EqualsClause("vehicle", "SUV"));
-        rie.addRule(rule);
-
-        rule=new Rule("Cycle");
-        rule.addAntecedent(new LessClause("num_wheels", "4"));
-        rule.setConsequent(new EqualsClause("vehicleType", "cycle"));
-        rie.addRule(rule);
-
-        rule=new Rule("Automobile");
-        rule.addAntecedent(new EqualsClause("num_wheels", "4"));
-        rule.addAntecedent(new EqualsClause("motor", "yes"));
-        rule.setConsequent(new EqualsClause("vehicleType", "automobile"));
-
-        rie.addRule(rule);
-
         return rie;
+    }
+
+    private void updateRule(Rules dbrule, Rule rule){
+        if (dbrule.getCondition().equals(">")){
+            rule.addAntecedent(new GreaterClause(dbrule.getVariable(), dbrule.getValue()));
+        }if (dbrule.getCondition().equals("<")){
+            rule.addAntecedent(new LessClause(dbrule.getVariable(), dbrule.getValue()));
+        }if (dbrule.getCondition().equals("=")){
+            rule.addAntecedent(new EqualsClause(dbrule.getVariable(), dbrule.getValue()));
+        }
+        if(dbrule.getSubGoal().equals("")){
+            rule.setConsequent(new EqualsClause(goal, dbrule.getRulename()));
+        }else{
+            rule.setConsequent(new EqualsClause(dbrule.getSubGoal(), dbrule.getRulename()));
+        }
     }
 
     ///
