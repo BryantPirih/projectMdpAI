@@ -1,5 +1,6 @@
 package com.bryant.projectmdpai.UserFragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
 import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
@@ -31,6 +34,7 @@ public class UserExpertFragment extends Fragment {
 
     private FragmentUserExpertBinding binding;
     private String menu;
+    private TextView textView;
 
     private ArrayList<Rules> rules=new ArrayList<>();
     private ArrayList<QuestionES> questions=new ArrayList<>();
@@ -104,6 +108,15 @@ public class UserExpertFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 undo();
+            }
+        });
+        binding.tvESQuestion.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                textView = new TextView(getActivity());
+                textView.setTextColor(Color.BLACK);
+                textView.setTextSize(20);
+                return textView;
             }
         });
     }
