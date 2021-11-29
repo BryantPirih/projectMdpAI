@@ -10,20 +10,29 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
+import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
 import com.bryant.projectmdpai.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseDatabase root;
+    FirebaseDatabase root = FirebaseDatabase
+            .getInstance("https://mdp-project-9db6f-default-rtdb.asia-southeast1.firebasedatabase.app");;
     DatabaseReference reference;
     private FirebaseAuth mAuth;
     private ActivityMainBinding binding;
+    private String role="User";
 
 
     @Override
@@ -73,15 +82,53 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Intent i = new Intent(MainActivity.this,UserHome.class);
-                    startActivity(i);
-                    finish();
-                    binding.progressBar.setVisibility(View.GONE);
+                    String uid = mAuth.getCurrentUser().getUid();
+                    getUserType(new FirebaseCallback() {
+                        @Override
+                        public void onCallbackType(String type) {
+                            role=type;
+                            Intent i;
+                            if (role.equalsIgnoreCase("Dokter")){
+                                i = new Intent(MainActivity.this,DoctorHome.class);
+                            }else{
+                                i = new Intent(MainActivity.this,UserHome.class);
+                            }
+                            startActivity(i);
+                            finish();
+                            binding.progressBar.setVisibility(View.GONE);
+                        }
+                    },uid);
                 }else{
                     Toast.makeText(getApplicationContext(), "Login Failed! Email blom terdaftar", Toast.LENGTH_SHORT).show();
                     binding.progressBar.setVisibility(View.GONE);
                 }
             }
         });
+    }
+
+    private void getUserType(FirebaseCallback firebaseCallback , String uid){
+        String type="User";
+        DatabaseReference questionsRef = root.getReference().child("users");
+        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
+                    String type="User";
+                    try {
+                        if (ds.getKey().equals(uid)){
+                            type=ds.child("role").getValue().toString();
+                            firebaseCallback.onCallbackType(type);
+                        }
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+    private interface FirebaseCallback{
+        void onCallbackType(String type);
     }
 }

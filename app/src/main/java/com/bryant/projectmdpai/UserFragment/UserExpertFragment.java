@@ -80,10 +80,12 @@ public class UserExpertFragment extends Fragment {
             @Override
             public void onCallbackRules(ArrayList<Rules> list) {
                 rules=list;
+                isDataReady();
             }
             @Override
             public void onCallbackQuestion(ArrayList<QuestionES> list) {
                 questions=list;
+                isDataReady();
             }
         });
         binding.buttonESNext.setOnClickListener(new View.OnClickListener() {
@@ -105,11 +107,16 @@ public class UserExpertFragment extends Fragment {
             }
         });
     }
+    private boolean isDataReady(){
+        if (rules.isEmpty()||questions.isEmpty()){
+            return false;
+        }
+        binding.progressBarES.setVisibility(View.INVISIBLE);
+        binding.buttonESStart.setVisibility(View.VISIBLE);
+        return true;
+    }
 
     private void startES(){
-        if (rules.isEmpty()||questions.isEmpty()){ //only starts when all data is not empty
-            return;
-        }
         rie=getInferenceEngine();
         unproved_conditions= new Vector<>();
         pastRie =new Stack<>();
@@ -128,7 +135,7 @@ public class UserExpertFragment extends Fragment {
             c=unproved_conditions.get(0);
             System.out.println("ask: "+c+"?");
             unproved_conditions.clear();
-            binding.edtESAnswer.setHint("Your Answer (prediction : "+c+"?)");
+            binding.edtESAnswer.setHint("Your Answer (is it "+c.getValue()+"?)");
             binding.tvESQuestion.setText(getQuestion(c.getVariable()));
         }else{
             finished=true;
@@ -136,8 +143,14 @@ public class UserExpertFragment extends Fragment {
         }
         showResult();
     }
+
     public String getQuestion(String variable){
         //search in list of questions
+        for (QuestionES q:questions ) {
+            if (q.getForeignvariable().equals(variable)){
+                return q.getQuestion();
+            }
+        }
         return variable+" ?";
     }
 
