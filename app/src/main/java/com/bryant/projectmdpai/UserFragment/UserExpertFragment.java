@@ -16,6 +16,8 @@ import android.widget.ViewSwitcher;
 
 import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
 import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
+import com.bryant.projectmdpai.Class.ExpertSystem.Solution;
+import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentUserExpertBinding;
 import com.github.cschen1205.ess.engine.*;
 import com.google.firebase.database.DataSnapshot;
@@ -38,13 +40,14 @@ public class UserExpertFragment extends Fragment {
 
     private ArrayList<Rules> rules=new ArrayList<>();
     private ArrayList<QuestionES> questions=new ArrayList<>();
+    private ArrayList<Solution> solutions=new ArrayList<>();
 
     private RuleInferenceEngine rie;
     private Vector<Clause> unproved_conditions;
     private Clause conclusion;
     private Clause c;
     private boolean finished;
-    private String goal = "vehicle";
+    private String goal = "Indication";
     private Stack<RuleInferenceEngine> pastRie;
 
 
@@ -91,6 +94,11 @@ public class UserExpertFragment extends Fragment {
                 questions=list;
                 isDataReady();
             }
+            @Override
+            public void onCallbackSolution(ArrayList<Solution> list) {
+                solutions=list;
+                isDataReady();
+            }
         });
         binding.buttonESNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +116,18 @@ public class UserExpertFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 undo();
+            }
+        });
+        binding.buttonESYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.edtESAnswer.setText("yes");
+            }
+        });
+        binding.buttonESNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.edtESAnswer.setText("no");
             }
         });
         binding.tvESQuestion.setFactory(new ViewSwitcher.ViewFactory() {
@@ -190,22 +210,34 @@ public class UserExpertFragment extends Fragment {
     }
 
     public void showResult(){
-        String con="";
-        String memory = "Memory : "+rie.getFacts();
+        String con ="";
+        String sol ="";
+        String memory = "Memory : \n";
+        for (Clause c:rie.getFacts()){
+            memory+="\t"+c.toString()+"\n";
+        }
         if (finished){
             if (conclusion==null){
-                con = "Conclusion : Sorry, we cannot find solution from our database\n\n";
+                con = "Sorry, we cannot find solution from our database.\nPlease contact the doctor for more precise and helpful answer...\n\n";
             }else{
-                con = "Conclusion : "+conclusion+"\n\n";
+                con = conclusion+"\n\n";
+                //add solution string here
+                for (Solution s:solutions ) {
+                    if (s.getForeignvariable().equalsIgnoreCase(conclusion.getValue())){
+                        sol="\n\nSolusi :\n"+s.getSolution();
+                    }
+                }
             }
         }
-        binding.tvESConclusion.setText(con+memory);
+        binding.tvESConclusion.setText(con+memory+sol);
     }
 
     public void toggleVisibility(){
         if(finished){
             binding.buttonESBack.setVisibility(View.INVISIBLE);
             binding.buttonESNext.setVisibility(View.INVISIBLE);
+            binding.buttonESYes.setVisibility(View.INVISIBLE);
+            binding.buttonESNo.setVisibility(View.INVISIBLE);
             binding.edtESAnswer.setVisibility(View.INVISIBLE);
             binding.tvESQuestion.setVisibility(View.INVISIBLE);
             binding.textView39.setVisibility(View.INVISIBLE);
@@ -213,6 +245,8 @@ public class UserExpertFragment extends Fragment {
         }else{
             binding.buttonESStart.setVisibility(View.INVISIBLE);
             binding.buttonESNext.setVisibility(View.VISIBLE);
+            binding.buttonESYes.setVisibility(View.VISIBLE);
+            binding.buttonESNo.setVisibility(View.VISIBLE);
             if  (!pastRie.isEmpty()){
                 //binding.buttonESBack.setVisibility(View.VISIBLE);
             }else{
@@ -230,7 +264,7 @@ public class UserExpertFragment extends Fragment {
     private void readData(FirebaseCallback firebaseCallback){
         //rules
         DatabaseReference root = FirebaseDatabase
-                .getInstance("https://mdp-project-9db6f-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getInstance(getActivity().getResources().getString(R.string.url_db))
                 .getReference();
         DatabaseReference RuleRef = root.child("es/rules");
         RuleRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -282,11 +316,34 @@ public class UserExpertFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+
+        //solutions
+        DatabaseReference solutionsRef = root.child("es/solutions");
+        solutionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Loading solutions...");
+                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
+                    try {
+                        String var = ds.getKey();
+                        String value = ds.getValue().toString();
+                        solutions.add(new Solution(var,value));
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                firebaseCallback.onCallbackSolution(solutions);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
     }
 
     private interface FirebaseCallback{
         void onCallbackRules(ArrayList<Rules> list);
         void onCallbackQuestion(ArrayList<QuestionES> list);
+        void onCallbackSolution(ArrayList<Solution> list);
     }
 
     private RuleInferenceEngine getInferenceEngine()
