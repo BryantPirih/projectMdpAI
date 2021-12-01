@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_admin_list"
+        android:icon="@drawable/ic_baseline_people_24"
+        android:title="User List"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_admin_req"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="Requests"
+        app:showAsAction="always" />
+</menu>

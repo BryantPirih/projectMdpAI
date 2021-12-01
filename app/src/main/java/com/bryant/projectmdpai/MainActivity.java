@@ -90,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
                             Intent i;
                             if (role.equalsIgnoreCase("Dokter")){
                                 i = new Intent(MainActivity.this,DoctorHome.class);
-                            }else{
+                            }else if(role.equalsIgnoreCase("User")){
                                 i = new Intent(MainActivity.this,UserHome.class);
+                            }else{
+                                i = new Intent(MainActivity.this, AdminHome.class);
                             }
                             startActivity(i);
                             finish();
