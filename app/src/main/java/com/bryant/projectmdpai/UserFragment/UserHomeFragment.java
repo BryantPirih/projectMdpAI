@@ -12,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bryant.projectmdpai.Class.Article;
+import com.bryant.projectmdpai.Class.likeComments;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentUserHomeBinding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class UserHomeFragment extends Fragment {
 
     private FragmentUserHomeBinding binding;
     private String menu;
+    ArrayList<Article> articles = new ArrayList<>();
+    ArrayList<likeComments> LikeComments = new ArrayList<>();
 
     public UserHomeFragment() {
         // Required empty public constructor
@@ -59,6 +64,9 @@ public class UserHomeFragment extends Fragment {
     }
 
     void setUpRecyclerView(){
+        binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvDataUserHome.setHasFixedSize(true);
+
 
     }
 }
