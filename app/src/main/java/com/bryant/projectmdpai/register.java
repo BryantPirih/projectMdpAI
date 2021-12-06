@@ -70,6 +70,7 @@ public class register extends AppCompatActivity {
         String password = binding.edtPasswordRegister.getText().toString().trim();
         String password_confirmation = binding.edtConfirmRegister.getText().toString().trim();
         String role;
+        int status;
 
         if(username.isEmpty()){
             binding.edtUsernameRegister.setError("Username is required!");
@@ -108,8 +109,10 @@ public class register extends AppCompatActivity {
         }
         if(binding.rbUser.isChecked()){
             role = binding.rbUser.getText().toString();
+            status=1;
         }else{
             role = binding.rbDokter.getText().toString();
+            status=0;
         }
 
         binding.progressBarRegis.setVisibility(View.VISIBLE);
@@ -117,7 +120,7 @@ public class register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    User user = new User(username, email, full, address, password, role, 0);
+                    User user = new User(username, email, full, address, password, role, 0,status);
                     //Toast.makeText(getApplicationContext(), , Toast.LENGTH_SHORT).show();
                     FirebaseDatabase.getInstance(getString(R.string.url_db))
                             .getReference("users")

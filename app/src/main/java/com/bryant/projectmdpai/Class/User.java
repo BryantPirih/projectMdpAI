@@ -12,20 +12,12 @@ public class User implements Parcelable {
     private String password;
     private String role; // user/doctor
     private float rating; // 0 - 5.0
+    private int status; // 0 unavailable/unverified , 1 available,
 
     public User() {
 
     }
-
-    public String getFull_name() {
-        return full_name;
-    }
-
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
-
-    public User( String username, String email, String full_name, String address, String password, String role, float rating) {
+    public User( String username, String email, String full_name, String address, String password, String role, float rating,int status) {
         this.username = username;
         this.email = email;
         this.full_name = full_name;
@@ -33,6 +25,7 @@ public class User implements Parcelable {
         this.password = password;
         this.role = role;
         this.rating = rating;
+        this.status = status;
     }
 
     protected User(Parcel in) {
@@ -44,6 +37,7 @@ public class User implements Parcelable {
         password = in.readString();
         role = in.readString();
         rating = in.readFloat();
+        status = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -64,6 +58,14 @@ public class User implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public String getUsername() {
@@ -114,6 +116,14 @@ public class User implements Parcelable {
         this.address = address;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -129,5 +139,6 @@ public class User implements Parcelable {
         parcel.writeString(password);
         parcel.writeString(role);
         parcel.writeFloat(rating);
+        parcel.writeInt(status);
     }
 }
