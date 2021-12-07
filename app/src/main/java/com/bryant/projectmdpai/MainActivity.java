@@ -122,13 +122,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUserType(FirebaseCallback firebaseCallback , String uid){
         String type="User";
-        DatabaseReference questionsRef = root.getReference().child("users");
-        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference usersRef = root.getReference().child("users");
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren() ) {
                     String type="User";
                     try {
+                        usersRef.child(ds.getKey()).child("id").setValue(ds.getKey());
                         if (ds.getKey().equals(uid)){
                             type=ds.child("role").getValue().toString();
                             firebaseCallback.onCallbackType(type);
