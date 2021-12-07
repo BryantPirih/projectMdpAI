@@ -13,6 +13,7 @@ public class User implements Parcelable {
     private String role; // user/doctor
     private float rating; // 0 - 5.0
     private int status; // 0 unavailable/unverified , 1 available,
+    private String desc; //
 
     public User() {
 
@@ -26,7 +27,8 @@ public class User implements Parcelable {
         this.role = role;
         this.rating = rating;
         this.status = status;
-        id="uid";
+        id="";
+        desc="";
     }
 
     protected User(Parcel in) {
@@ -39,6 +41,7 @@ public class User implements Parcelable {
         role = in.readString();
         rating = in.readFloat();
         status = in.readInt();
+        desc = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -125,6 +128,14 @@ public class User implements Parcelable {
         this.status = status;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -141,5 +152,6 @@ public class User implements Parcelable {
         parcel.writeString(role);
         parcel.writeFloat(rating);
         parcel.writeInt(status);
+        parcel.writeString(desc);
     }
 }
