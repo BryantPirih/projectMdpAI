@@ -91,6 +91,16 @@ public class DoctorProfile extends AppCompatActivity {
                 //save other user profiles
             }
         });
+
+        //button back home
+        binding.btnBackDoctorHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toDocHome = new Intent(getApplicationContext(), DoctorHome.class);
+                toDocHome.putExtra("uid", uid);
+                startActivity(toDocHome);
+            }
+        });
     }
 
     void makeToast(String msg){
