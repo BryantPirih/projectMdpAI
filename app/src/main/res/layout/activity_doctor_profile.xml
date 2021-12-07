@@ -8,13 +8,14 @@
     android:background="@drawable/background"
     tools:context=".DoctorProfile">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgDocProfile"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/Circular"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -23,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Name"
+        android:textColor="@color/black"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/btnChangePicDocProfile"
         app:layout_constraintTop_toTopOf="@+id/imgDocProfile" />
 
@@ -32,12 +35,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginEnd="24dp"
         android:text="Change Picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNameDocProfile" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -49,7 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView22"
@@ -247,12 +251,13 @@
 
             </LinearLayout>
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgDocProfileLicense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:visibility="invisible"
+                app:shapeAppearanceOverlay="@style/Rounded"
                 tools:srcCompat="@drawable/ic_baseline_settings_system_daydream_24" />
 
         </LinearLayout>
@@ -285,5 +290,15 @@
         app:layout_constraintEnd_toEndOf="@+id/imgDocProfile"
         app:layout_constraintStart_toStartOf="@+id/imgDocProfile"
         app:layout_constraintTop_toTopOf="@+id/imgDocProfile" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBackDoctorHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
