@@ -21,12 +21,17 @@ import com.google.android.material.navigation.NavigationBarView;
 public class UserHome extends AppCompatActivity {
 
     private ActivityUserHomeBinding binding;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        if (getIntent().hasExtra("uid")){
+            uid=getIntent().getStringExtra("uid");
+        }
 
         binding.bottNavUser.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -70,19 +75,22 @@ public class UserHome extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.option_home:
-
+                intent = new Intent(getApplicationContext(), UserHome.class);
                 break;
             case R.id.option_profile:
-                Intent toProfile = new Intent(getApplicationContext(), profile.class);
-                startActivity(toProfile);
+                intent = new Intent(getApplicationContext(), profile.class);
                 break;
             default:
-                Intent toLogin = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(toLogin);
+                intent = new Intent(getApplicationContext(), MainActivity.class);
                 break;
         }
+
+        intent.putExtra("uid", uid);
+        startActivity(intent);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }
