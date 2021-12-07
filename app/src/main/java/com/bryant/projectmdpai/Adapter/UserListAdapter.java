@@ -82,7 +82,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
             txtEmail = itemView.findViewById(R.id.txt_admin_email);
             txtAddress = itemView.findViewById(R.id.txt_admin_address);
             imgView = itemView.findViewById(R.id.imageView);
-            imgView.
         }
     }
 
