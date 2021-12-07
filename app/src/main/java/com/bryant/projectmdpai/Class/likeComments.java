@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 public class likeComments implements Parcelable {
     private int id_article;
-    private int id_user;
+    private String username_user;
     private int like;
     private String comment;
 
-    public likeComments(int id_article, int id_user, int like, String comment) {
+    public likeComments(int id_article, String username_user, int like, String comment) {
         this.id_article = id_article;
-        this.id_user = id_user;
+        this.username_user = username_user;
         this.like = like;
         this.comment = comment;
     }
@@ -20,7 +20,7 @@ public class likeComments implements Parcelable {
         id_article = in.readInt();
         like = in.readInt();
         comment = in.readString();
-        id_user = in.readInt();
+        username_user = in.readString();
     }
 
     public static final Creator<likeComments> CREATOR = new Creator<likeComments>() {
@@ -35,12 +35,12 @@ public class likeComments implements Parcelable {
         }
     };
 
-    public int getId_user() {
-        return id_user;
+    public String getUsername_user() {
+        return username_user;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setUsername_user(String username_user) {
+        this.username_user = username_user;
     }
 
     public int getId_article() {
@@ -77,6 +77,6 @@ public class likeComments implements Parcelable {
         parcel.writeInt(id_article);
         parcel.writeInt(like);
         parcel.writeString(comment);
-        parcel.writeInt(id_user);
+        parcel.writeString(username_user);
     }
 }
