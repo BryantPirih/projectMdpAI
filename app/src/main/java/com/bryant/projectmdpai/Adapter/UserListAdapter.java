@@ -1,5 +1,8 @@
 package com.bryant.projectmdpai.Adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
 
     ArrayList<User> listUser = new ArrayList<>();
+    Context context;
 
     public UserListAdapter(ArrayList<User> listUser) {
         this.listUser = listUser;
@@ -27,6 +36,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_users_admin, parent, false);
         UserViewHolder viewHolder = new UserViewHolder(v);
+        this.context=parent.getContext();
         return viewHolder;
     }
 
@@ -36,6 +46,26 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         holder.txtFullName.setText(user.getFull_name());
         holder.txtEmail.setText(user.getEmail());
         holder.txtAddress.setText(user.getAddress());
+
+        StorageReference storageRef = FirebaseStorage
+                .getInstance("gs://mdp-project-9db6f.appspot.com/")
+                .getReference().child("images");
+        storageRef.child("profile_pictures").child(user.getId())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String imageURL = uri.toString();
+                Glide.with(context)
+                        .load(imageURL)
+                        .placeholder(R.drawable.ic_user_icon)
+                        .into(holder.imgView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     @Override
@@ -51,6 +81,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
             txtFullName = itemView.findViewById(R.id.txt_admin_users);
             txtEmail = itemView.findViewById(R.id.txt_admin_email);
             txtAddress = itemView.findViewById(R.id.txt_admin_address);
+            imgView = itemView.findViewById(R.id.imageView);
         }
     }
+
 }
