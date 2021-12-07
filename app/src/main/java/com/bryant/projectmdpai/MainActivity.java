@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             }else{
                                 i = new Intent(MainActivity.this, AdminHome.class);
                             }
+                            i.putExtra("uid",uid);
                             startActivity(i);
                             finish();
                             binding.progressBar.setVisibility(View.GONE);

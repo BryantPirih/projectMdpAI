@@ -21,12 +21,16 @@ import com.google.android.material.navigation.NavigationBarView;
 public class DoctorHome extends AppCompatActivity {
 
     private ActivityDoctorHomeBinding binding;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDoctorHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        if (getIntent().hasExtra("uid")){
+            uid=getIntent().getStringExtra("uid");
+        }
 
         binding.bottNavDoctor.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -61,23 +65,21 @@ public class DoctorHome extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.option_home:
-                Intent toHome = new Intent(getApplicationContext(), DoctorHome.class);
-                startActivity(toHome);
-                finish();
+                intent = new Intent(getApplicationContext(), DoctorHome.class);
                 break;
             case R.id.option_profile:
-                Intent toProfile = new Intent(getApplicationContext(), DoctorProfile.class);
-                startActivity(toProfile);
-                finish();
+                intent = new Intent(getApplicationContext(), DoctorProfile.class);
                 break;
             default:
-                Intent toLogin = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(toLogin);
-                finish();
+                intent = new Intent(getApplicationContext(), MainActivity.class);
                 break;
         }
+        intent.putExtra("uid",uid);
+        startActivity(intent);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }
