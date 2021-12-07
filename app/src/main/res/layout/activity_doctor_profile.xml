@@ -34,10 +34,10 @@
         android:id="@+id/btnChangePicDocProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
         android:text="Change Picture"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgDocProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtNameDocProfile" />
 
     <ScrollView
@@ -65,11 +65,12 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView26"
+            <EditText
+                android:id="@+id/txtDescDocProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:gravity="start|top"
                 android:hint="Silahkan masukkan descripsi anda. Bisa mulai dari memperkenalkan diri hingga menginformasikan jadwal praktek."
                 android:textAlignment="textStart"
                 android:textColor="@color/black" />
@@ -166,7 +167,7 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtAddressDocProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

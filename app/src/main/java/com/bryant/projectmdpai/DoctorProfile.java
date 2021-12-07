@@ -89,6 +89,14 @@ public class DoctorProfile extends AppCompatActivity {
                     uploadImage(selectedLicense,"images/licenses/",uid);
                 }
                 //save other user profiles
+                try {
+                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                    root.getReference("users/"+uid+"/desc").setValue(binding.txtDescDocProfile.getText().toString());
+                    root.getReference("users/"+uid+"/address").setValue(binding.txtAddressDocProfile.getText().toString());
+                    makeToast("Berhasil mengubah profile");
+                }catch (Exception exception){
+                    System.out.println(exception);
+                }
             }
         });
 
@@ -268,6 +276,7 @@ public class DoctorProfile extends AppCompatActivity {
                         binding.txtAddressDocProfile.setText(userSnapshot.child("address").getValue().toString());
                         binding.txtEmailDocProfile.setText(userSnapshot.child("email").getValue().toString());
 //                        binding.txtTimeDocProfile.setText(userSnapshot.child("time").getValue().toString());
+                        binding.txtDescDocProfile.setText(userSnapshot.child("desc").getValue().toString());
                         if(userSnapshot.child("status").getValue().toString().equals("1")){
                             binding.txtAddLicenseDocProfile.setText("Verified");
                         }
