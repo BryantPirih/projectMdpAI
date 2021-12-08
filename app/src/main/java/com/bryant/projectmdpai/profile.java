@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,15 +39,18 @@ import java.io.ByteArrayOutputStream;
 public class profile extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
-    private String uid;
+    private String uid, oldPw;
     private String Document_img1 = "";
     private Uri selectedProfilePicture;
+    private Boolean toggle, valid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        toggle = false;
+        toggleVisibility(toggle);
 
         if (getIntent().hasExtra("uid")){
             uid=getIntent().getStringExtra("uid");
@@ -64,7 +68,24 @@ public class profile extends AppCompatActivity {
         binding.btnChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggle = true;
+                toggleVisibility(toggle);
+                getPwNowUser();
 
+                binding.btnNextChangePw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        changePw();
+                    }
+                });
+
+                binding.btnBackToUsProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toggle = false;
+                        toggleVisibility(toggle);
+                    }
+                });
             }
         });
 
@@ -87,6 +108,105 @@ public class profile extends AppCompatActivity {
             }
         });
         loadProfile();
+    }
+
+    private void getPwNowUser(){
+        DatabaseReference dbRef = FirebaseDatabase
+                .getInstance(getResources().getString(R.string.url_db))
+                .getReference().child("users");
+
+        //get user password
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    if (snapshot.hasChild(uid)){
+                        DataSnapshot userSnapshot = snapshot.child(uid);
+                        oldPw = userSnapshot.child("password").getValue().toString();
+                    }
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                makeToast("Failed to get data");
+            }
+        });
+    }
+
+    private void changePw(){
+        if(TextUtils.isEmpty(binding.edtNowPw.getText().toString())){
+            binding.edtNowPw.setError("Current Password is required!");
+            binding.edtNowPw.requestFocus();
+            valid = false;
+            return;
+        }else if(!binding.edtNowPw.getText().toString().equals(oldPw)){
+            binding.edtNowPw.setError("Current Password invalid!");
+            binding.edtNowPw.requestFocus();
+            valid = false;
+            return;
+        }else{
+            valid = true;
+            if(valid){
+                binding.textView42.setVisibility(View.INVISIBLE);
+                binding.edtNowPw.setVisibility(View.INVISIBLE);
+                binding.btnNextChangePw.setVisibility(View.INVISIBLE);
+                binding.btnBackToUsProfile.setVisibility(View.INVISIBLE);
+                binding.textView44.setVisibility(View.VISIBLE);
+                binding.edtNewPw.setVisibility(View.VISIBLE);
+                binding.textView45.setVisibility(View.VISIBLE);
+                binding.edtConPw.setVisibility(View.VISIBLE);
+                binding.btnUpdateNewPw.setVisibility(View.VISIBLE);
+                binding.btnUpdateNewPw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(TextUtils.isEmpty(binding.edtNewPw.getText().toString())){
+                            binding.edtNewPw.setError("New Password is required!");
+                            binding.edtNewPw.requestFocus();
+                            return;
+                        }else if(!binding.edtConPw.getText().toString().equals(binding.edtNewPw.getText().toString())){
+                            binding.edtConPw.setError("Confirmation Password not matched!");
+                            binding.edtConPw.requestFocus();
+                            return;
+                        }else{
+                            try {
+                                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());
+                                makeToast("Berhasil mengubah password!");
+                            }catch (Exception exception){
+                                System.out.println(exception);
+                            }
+
+                            toggle = false;
+                            toggleVisibility(toggle);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private void toggleVisibility(boolean yes){
+        if (yes){
+            binding.linearLayoutUsProfile.setVisibility(View.VISIBLE);
+            binding.tvUserID.setVisibility(View.VISIBLE);
+            binding.btnChangePic.setVisibility(View.INVISIBLE);
+            binding.pgBarUserProfile.setVisibility(View.INVISIBLE);
+            binding.scrollViewDataUser.setVisibility(View.INVISIBLE);
+            binding.btnChangePass.setVisibility(View.INVISIBLE);
+            binding.btnChangeProf.setVisibility(View.INVISIBLE);
+            binding.ChangePwLayout.setVisibility(View.VISIBLE);
+        }else{
+            binding.linearLayoutUsProfile.setVisibility(View.VISIBLE);
+            binding.tvUserID.setVisibility(View.VISIBLE);
+            binding.btnChangePic.setVisibility(View.VISIBLE);
+            binding.pgBarUserProfile.setVisibility(View.VISIBLE);
+            binding.scrollViewDataUser.setVisibility(View.VISIBLE);
+            binding.btnChangePass.setVisibility(View.VISIBLE);
+            binding.btnChangeProf.setVisibility(View.VISIBLE);
+            binding.ChangePwLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void selectImage(String mode){
