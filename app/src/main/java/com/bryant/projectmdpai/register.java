@@ -83,7 +83,7 @@ public class register extends AppCompatActivity {
             return;
         }
         if (full.isEmpty()){
-            binding.edtFullName.setText("Full name is required!");
+            binding.edtFullName.setError("Full name is required!");
             binding.edtFullName.requestFocus();
             return;
         }
