@@ -3,4 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminFragment.AdminRequestFragment"/>
+    tools:context=".AdminFragment.AdminRequestFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_req_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>
