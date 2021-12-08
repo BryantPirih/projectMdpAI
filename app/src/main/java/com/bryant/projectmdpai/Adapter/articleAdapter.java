@@ -20,7 +20,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
 
     public articleAdapter(ArrayList<Article> articles, ArrayList<likeComments> likeComments) {
         this.articles = articles;
-        LikeComments = likeComments;
+        this.LikeComments = likeComments;
     }
 
 
