@@ -122,14 +122,22 @@ public class register extends AppCompatActivity {
                 if(task.isSuccessful()){
                     User user = new User(username, email, full, address, password, role, 0,status);
                     //Toast.makeText(getApplicationContext(), , Toast.LENGTH_SHORT).show();
-                    FirebaseDatabase.getInstance(getString(R.string.url_db))
+                    String userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    FirebaseDatabase.getInstance(getResources().getString(R.string.url_db))
                             .getReference("users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child(userKey)
                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 makeToast("User has been registered successfully!");
+                                //set id
+                                try {
+                                    FirebaseDatabase.getInstance(getResources().getString(R.string.url_db))
+                                            .getReference("users/"+userKey).child("id").setValue(userKey);
+                                }catch (Exception exception){
+                                    makeToast("users/id nya belom masuk");
+                                }
                                 binding.progressBarRegis.setVisibility(View.GONE);
                             }else{
                                 makeToast("Failed to register! Try again!");
