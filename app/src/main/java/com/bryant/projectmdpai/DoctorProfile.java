@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -301,9 +302,12 @@ public class DoctorProfile extends AppCompatActivity {
                 binding.progressBarProfileImage.setVisibility(View.INVISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                binding.imgDocProfile.setBackground(getResources().getDrawable(R.drawable.ic_user_icon));
+                binding.progressBarProfileImage.setVisibility(View.INVISIBLE);
             }
         });
         storageRef.child("licenses").child(uid)
