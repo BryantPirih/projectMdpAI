@@ -78,10 +78,20 @@
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="206dp">
 
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Biodata :"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -200,8 +210,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tvAddress"
+                <EditText
+                    android:id="@+id/txtAddressUserProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -226,7 +236,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="start|top"
-                android:hint="Silahkan masukkan descripsi anda. Bisa mulai dari memperkenalkan diri hingga menginformasikan jadwal praktek."
+                android:hint="Silahkan masukkan deskripsi diri anda."
                 android:textAlignment="textStart"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -248,7 +258,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Change Profile"
+        android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
