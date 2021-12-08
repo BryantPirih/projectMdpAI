@@ -91,9 +91,12 @@ public class AdminUsersFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot childSnapshot : snapshot.getChildren()){
                     User u = childSnapshot.getValue(User.class);
-                    System.out.println(u.getFull_name());
-                    listUser.add(u);
-                    System.out.println("Size of list : "+listUser.size());
+                    if(!u.getRole().equals("Admin")){
+                        System.out.println(u.getFull_name());
+                        listUser.add(u);
+                        System.out.println("Size of list : "+listUser.size());
+                    }
+
                 }
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 UserListAdapter adapter = new UserListAdapter(listUser);
