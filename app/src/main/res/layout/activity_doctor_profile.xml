@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:background="@drawable/background"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
     tools:context=".DoctorProfile">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgDocProfile"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,9 +36,11 @@
         android:id="@+id/btnChangePicDocProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="Change Picture"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgDocProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtNameDocProfile" />
 
@@ -53,13 +57,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="Description :"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -291,6 +295,7 @@
         android:id="@+id/btnBackDoctorHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
