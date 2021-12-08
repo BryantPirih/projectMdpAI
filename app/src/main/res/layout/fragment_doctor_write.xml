@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".DoctorFragment.DoctorWriteFragment">
 
     <TextView
@@ -84,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <EditText
-        android:id="@+id/edtDocConstentArticle"
+        android:id="@+id/edtDocContentArticle"
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:layout_marginTop="8dp"
@@ -105,7 +106,7 @@
         android:layout_marginTop="16dp"
         android:text="Clear All"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtDocConstentArticle" />
+        app:layout_constraintTop_toBottomOf="@+id/edtDocContentArticle" />
 
     <Button
         android:id="@+id/btnPostArticle"
@@ -114,5 +115,5 @@
         android:layout_marginTop="16dp"
         android:text="Post"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtDocConstentArticle" />
+        app:layout_constraintTop_toBottomOf="@+id/edtDocContentArticle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

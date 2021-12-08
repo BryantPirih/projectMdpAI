@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,22 @@ public class DoctorWriteFragment extends Fragment {
             public void onCallbackArticles(ArrayList<Article> list) {
                 articles = list;
                 isDataReady();
+            }
+        });
+
+        binding.btnPostArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(binding.edtDocContentArticle.getText().toString())){
+                    binding.edtDocContentArticle.setError("Content is required!");
+                    binding.edtDocContentArticle.requestFocus();
+                    return;
+                }
+                if(TextUtils.isEmpty(binding.edtDocTitleArticle.getText().toString())){
+                    binding.edtDocTitleArticle.setError("Title is required!");
+                    binding.edtDocTitleArticle.requestFocus();
+                    return;
+                }
             }
         });
     }
