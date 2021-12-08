@@ -10,14 +10,14 @@ import java.util.Date;
 
 
 public class Article implements Parcelable {
-    private int id;
+    private String id;
     private int author;
     private String title;
     private String content;
     private Date time;
     private byte[] image;
 
-    public Article(int id, int author, String title, String content) {
+    public Article(String id, int author, String title, String content) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -25,8 +25,16 @@ public class Article implements Parcelable {
         image=new byte[0];
     }
 
+    public Article(String id, int author, String title, String content, Date time) {
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.content = content;
+        this.time = time;
+    }
+
     protected Article(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         author = in.readInt();
         title = in.readString();
         content = in.readString();
@@ -45,11 +53,11 @@ public class Article implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -105,7 +113,7 @@ public class Article implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeString(id);
         parcel.writeInt(author);
         parcel.writeString(title);
         parcel.writeString(content);

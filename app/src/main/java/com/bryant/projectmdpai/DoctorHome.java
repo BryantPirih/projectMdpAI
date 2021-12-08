@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.bryant.projectmdpai.DoctorFragment.DoctorConsultFragment;
 import com.bryant.projectmdpai.DoctorFragment.DoctorHomeFragment;
@@ -31,6 +32,7 @@ public class DoctorHome extends AppCompatActivity {
         if (getIntent().hasExtra("uid")){
             uid=getIntent().getStringExtra("uid");
         }
+        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
 
         binding.bottNavDoctor.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
