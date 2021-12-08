@@ -32,14 +32,13 @@ public class DoctorHome extends AppCompatActivity {
         if (getIntent().hasExtra("uid")){
             uid=getIntent().getStringExtra("uid");
         }
-        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
 
         binding.bottNavDoctor.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 if (item.getItemId() == R.id.itm_doc_article){
-                    fragment = DoctorHomeFragment.newInstance();
+                    fragment = DoctorHomeFragment.newInstance(uid);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutDoctor, fragment).commit();
                     return true;
                 }else if (item.getItemId() == R.id.itm_doc_forum){
@@ -47,7 +46,7 @@ public class DoctorHome extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutDoctor, fragment).commit();
                     return true;
                 }else{
-                    fragment = DoctorHomeFragment.newInstance();
+                    fragment = DoctorHomeFragment.newInstance(uid);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutDoctor, fragment).commit();
                     return true;
                 }

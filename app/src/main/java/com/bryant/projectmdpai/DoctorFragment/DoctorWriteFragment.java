@@ -48,6 +48,10 @@ import java.util.UUID;
 
 public class DoctorWriteFragment extends Fragment {
 
+
+    private static final String ARG_PARAM_UID = "param-uid";
+    private String uid;
+
     private FragmentDoctorWriteBinding binding;
     private ArrayList<Article> articles = new ArrayList<>();
     private FirebaseStorage storage;
@@ -61,9 +65,10 @@ public class DoctorWriteFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DoctorWriteFragment newInstance() {
+    public static DoctorWriteFragment newInstance(String paramUid) {
         DoctorWriteFragment fragment = new DoctorWriteFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM_UID, paramUid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,20 +77,19 @@ public class DoctorWriteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            uid = getArguments().getString(ARG_PARAM_UID);
         }
         storage = FirebaseStorage.getInstance();
         reference = storage.getReference();
         imageUri=null;
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDoctorWriteBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -170,7 +174,6 @@ public class DoctorWriteFragment extends Fragment {
             }
         });
     }
-
     private boolean isDataReady(){
         if (articles.isEmpty()){
             return false;
@@ -205,18 +208,16 @@ public class DoctorWriteFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
-
     private interface FirebaseCallback{
         void onCallbackArticles(ArrayList<Article> list);
     }
-
     private void uploadPicture(){
 
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle("image uploading");
         pd.show();
 
-        StorageReference sr = reference.child("article_picture/"+1);
+        StorageReference sr = reference.child("images/article_pictures/"+1);
         sr.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
 import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
+import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
