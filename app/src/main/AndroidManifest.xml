@@ -12,25 +12,27 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectMdpAI"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AdminVerification"
+            android:exported="true" />
+        <activity
             android:name=".AdminHome"
-            android:exported="true" >
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".DoctorProfile"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".DoctorHome"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".UserHome"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".profile"
             android:exported="true" />
@@ -40,7 +42,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

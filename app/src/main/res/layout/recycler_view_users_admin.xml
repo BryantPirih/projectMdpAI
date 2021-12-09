@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/txt_admin_users"
-        android:layout_width="255dp"
-        android:layout_height="26dp"
+        android:layout_width="166dp"
+        android:layout_height="23dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
@@ -45,8 +45,8 @@
         android:id="@+id/txt_admin_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Person Address"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/txt_admin_email" />
@@ -55,11 +55,22 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="10dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.315"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/txt_admin_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Person Role + Status"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/txt_admin_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

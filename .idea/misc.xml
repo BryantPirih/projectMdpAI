@@ -44,6 +44,7 @@
         <entry key="..\:/Github/projectMdpAI/app/src/main/res/xml/network_security_config.xml" value="0.1331521739130435" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.21979166666666666" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_admin_home.xml" value="0.20364583333333333" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_admin_verification.xml" value="0.33" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_doctor_home.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_profile.xml" value="0.20364583333333333" />
@@ -55,7 +56,7 @@
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_consult.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_expert.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_home.xml" value="0.2957427536231884" />
-        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/recycler_view_users_admin.xml" value="0.33" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/recycler_view_users_admin.xml" value="0.67" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/admin_bottnav.xml" value="0.20364583333333333" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/admin_nav.xml" value="0.20572916666666666" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/menu/doctor_bottnav.xml" value="0.20364583333333333" />

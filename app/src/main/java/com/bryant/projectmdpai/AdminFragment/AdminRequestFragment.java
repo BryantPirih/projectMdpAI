@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.bryant.projectmdpai.Adapter.DoctorVerifAdapter;
 import com.bryant.projectmdpai.Adapter.UserListAdapter;
+import com.bryant.projectmdpai.AdminHome;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
 import com.google.firebase.database.DataSnapshot;
@@ -97,8 +101,14 @@ public class AdminRequestFragment extends Fragment {
                     }
                 }
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                UserListAdapter adapter = new UserListAdapter(unverifiedDoctors);
+                DoctorVerifAdapter adapter = new DoctorVerifAdapter(unverifiedDoctors);
                 rv.setAdapter(adapter);
+                adapter.setOnItemClickCallback(new DoctorVerifAdapter.OnItemClickCallback() {
+                    @Override
+                    public void onItemClicked(User user) {
+                        Toast.makeText(getContext(), user.getFull_name(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -106,6 +116,8 @@ public class AdminRequestFragment extends Fragment {
                 System.out.println("Fail to read");
             }
         });
+
+
 
     }
 }

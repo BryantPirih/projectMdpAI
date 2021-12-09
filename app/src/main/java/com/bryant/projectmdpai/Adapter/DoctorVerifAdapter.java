@@ -1,7 +1,6 @@
 package com.bryant.projectmdpai.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -23,44 +22,35 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
-
+public class DoctorVerifAdapter extends RecyclerView.Adapter<DoctorVerifAdapter.DoctorVerifViewHolder> {
     ArrayList<User> listUser = new ArrayList<>();
     Context context;
-
-    public UserListAdapter(ArrayList<User> listUser) {
+    private OnItemClickCallback onItemClickCallback;
+    public DoctorVerifAdapter(ArrayList<User> listUser) {
         this.listUser = listUser;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DoctorVerifViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_users_admin, parent, false);
-        UserViewHolder viewHolder = new UserViewHolder(v);
+        DoctorVerifViewHolder viewHolder = new DoctorVerifViewHolder(v);
         this.context=parent.getContext();
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DoctorVerifViewHolder holder, int position) {
         User user = listUser.get(position);
         holder.txtFullName.setText(user.getFull_name());
         holder.txtEmail.setText(user.getEmail());
         holder.txtAddress.setText(user.getAddress());
-        if(user.getRole().equals("Dokter")){
-            if(user.getStatus()==0){
-                holder.txtRole.setTextColor(Color.RED);
-                holder.txtRole.setText(user.getRole()+" - Unverified");
-            }
-            else {
-                holder.txtRole.setTextColor(Color.BLUE);
-                holder.txtRole.setText(user.getRole()+" - Verified");
-            }
-        }
-        else{
-            holder.txtRole.setText(user.getRole());
-            holder.txtRole.setTextColor(Color.BLACK);
-        }
+        holder.txtRole.setText("Unverified");
+        holder.txtRole.setTextColor(Color.RED);
         StorageReference storageRef = FirebaseStorage
                 .getInstance("gs://mdp-project-9db6f.appspot.com/")
                 .getReference().child("images");
@@ -80,6 +70,13 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
                 // Handle any errors
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickCallback.onItemClicked(listUser.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -87,10 +84,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         return listUser.size();
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    public User getItem(int position){
+        return listUser.get(position);
+    }
+
+    public class DoctorVerifViewHolder extends RecyclerView.ViewHolder {
         ImageView imgView;
         TextView txtFullName, txtEmail, txtAddress, txtRole;
-        public UserViewHolder(@NonNull View itemView) {
+        public DoctorVerifViewHolder(@NonNull View itemView) {
             super(itemView);
             txtFullName = itemView.findViewById(R.id.txt_admin_users);
             txtEmail = itemView.findViewById(R.id.txt_admin_email);
@@ -100,4 +101,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         }
     }
 
+    public interface OnItemClickCallback{
+        void onItemClicked(User user);
+    }
 }
