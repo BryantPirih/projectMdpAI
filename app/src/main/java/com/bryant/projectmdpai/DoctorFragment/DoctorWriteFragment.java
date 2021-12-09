@@ -84,13 +84,6 @@ public class DoctorWriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        readData(new FirebaseCallback() {
-//            @Override
-//            public void onCallbackArticles(ArrayList<Article> list) {
-//                articles = list;
-//                isDataReady();
-//            }
-//        });
 
         if (getArguments() != null) {
             uid = getArguments().getString(ARG_PARAM_UID);
@@ -164,47 +157,16 @@ public class DoctorWriteFragment extends Fragment {
                         binding.edtDocTitleArticle.getText().toString(),
                         binding.edtDocContentArticle.getText().toString()
                 );
+                binding.imgArticle.setImageBitmap(null);
+                binding.edtDocTitleArticle.setText("");
+                binding.edtDocContentArticle.setText("");
             }
         });
-    }
-    private boolean isDataReady(){
-        if (articles.isEmpty()){
-            return false;
-        }
-        return true;
     }
     // GET DATAS FROM DB
-    private void readData(FirebaseCallback firebaseCallback){
-        //articles
-        DatabaseReference root = FirebaseDatabase
-                .getInstance(getActivity().getResources().getString(R.string.url_db))
-                .getReference();
-        DatabaseReference questionsRef = root.child("articles");
-        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("Loading articles...");
-                for (DataSnapshot ds: dataSnapshot.getChildren() ) {
-                    try {
-                        int id = (int) ds.child("id").getValue();
-                        int author = (int) ds.child("user_id").getValue();
-                        String desc = ds.child("desc").getValue().toString();
-                        String title = ds.child("title").getValue().toString();
-                        //articles.add(new Article(id, author, desc, title));
-                    }catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-                //firebaseCallback.onCallbackArticles(articles);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
     private interface FirebaseCallback{
         void onCallbackArticles(String fullname);
     }
-
     private void getData(FirebaseCallback f){
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
@@ -232,7 +194,6 @@ public class DoctorWriteFragment extends Fragment {
 
     // Insert data to firebase/storage
     private void uploadPicture(String articlekey){
-
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle("image uploading");
         pd.show();
@@ -261,7 +222,6 @@ public class DoctorWriteFragment extends Fragment {
         });
     }
 
-
     private void postArticle(String author,String title, String content){
         binding.progressBarArticle.setVisibility(View.VISIBLE);
         DatabaseReference reference = FirebaseDatabase
@@ -269,14 +229,25 @@ public class DoctorWriteFragment extends Fragment {
                 .getReference("articles");
 
         Date date = Calendar. getInstance(). getTime();
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm, dd-mm-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd, hh:mm");
         String strDate = dateFormat. format(date);
 
         DatabaseReference pushedRef = reference.push();
         String key = pushedRef.getKey();
         Article a = new Article(key ,author,title,content,strDate);
-        reference.child(key).setValue(a);
-        Toast.makeText(getActivity(), "Berhasil: "+key, Toast.LENGTH_SHORT).show();
+        reference.child(key).setValue(a).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getActivity(), "article berhasil di post", Toast.LENGTH_SHORT).show();
+                binding.progressBarArticle.setVisibility(View.GONE);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "article gagal di post", Toast.LENGTH_SHORT).show();
+                binding.progressBarArticle.setVisibility(View.GONE);
+            }
+        });
 
         if (imageUri!=null){
             uploadPicture(key);
