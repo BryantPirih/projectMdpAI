@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,13 +22,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bryant.projectmdpai.Class.Article;
-import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
-import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
-import com.bryant.projectmdpai.Class.ExpertSystem.Solution;
 import com.bryant.projectmdpai.R;
-import com.bryant.projectmdpai.UserFragment.UserExpertFragment;
 import com.bryant.projectmdpai.databinding.FragmentDoctorWriteBinding;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,9 +39,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 public class DoctorWriteFragment extends Fragment {
 
@@ -57,12 +52,11 @@ public class DoctorWriteFragment extends Fragment {
 
     private FragmentDoctorWriteBinding binding;
     private ArrayList<Article> articles = new ArrayList<>();
-    private FirebaseStorage storage;
-    private StorageReference reference;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     private Uri imageUri;
     private String tempFullName;
-    private FirebaseDatabase database;
-    private DatabaseReference dbReference;
+    private String Key;
 
     public DoctorWriteFragment() {
         // Required empty public constructor
@@ -79,13 +73,6 @@ public class DoctorWriteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            uid = getArguments().getString(ARG_PARAM_UID);
-        }
-        storage = FirebaseStorage.getInstance();
-        reference = storage.getReference();
-        imageUri=null;
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +92,19 @@ public class DoctorWriteFragment extends Fragment {
 //            }
 //        });
 
+        if (getArguments() != null) {
+            uid = getArguments().getString(ARG_PARAM_UID);
+        }
+        firebaseStorage = FirebaseStorage.getInstance(getActivity().getResources().getString(R.string.url_storage));
+        storageReference = firebaseStorage.getReference();
+        imageUri=null;
+
+        getData(new FirebaseCallback() {
+            @Override
+            public void onCallbackArticles(String fullname) {
+                tempFullName = fullname;
+            }
+        });
 
         ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -159,30 +159,11 @@ public class DoctorWriteFragment extends Fragment {
                     binding.edtDocTitleArticle.requestFocus();
                     return;
                 }
-
-                binding.progressBarArticle.setVisibility(View.VISIBLE);
-                database = FirebaseDatabase.getInstance();
-                dbReference = database.getReference("article");
-                tempFullName="";
-                getData(new FirebaseCallback() {
-                    @Override
-                    public void onCallbackArticles(String fullname) {
-                        tempFullName = fullname;
-                        Toast.makeText(getActivity(), "masuk", Toast.LENGTH_SHORT).show();
-                        postArticle(
-                                fullname,
-                                binding.edtDocTitleArticle.getText().toString(),
-                                binding.edtDocContentArticle.getText().toString()
-                        );
-                    }
-                });
-                dbReference.setValue("");
-                if (imageUri!=null){
-                    uploadPicture();
-                }
-                imageUri=null;
-                System.out.println("berhasil");
-                binding.progressBarArticle.setVisibility(View.GONE);
+                postArticle(
+                        tempFullName,
+                        binding.edtDocTitleArticle.getText().toString(),
+                        binding.edtDocContentArticle.getText().toString()
+                );
             }
         });
     }
@@ -193,7 +174,6 @@ public class DoctorWriteFragment extends Fragment {
         return true;
     }
     // GET DATAS FROM DB
-
     private void readData(FirebaseCallback firebaseCallback){
         //articles
         DatabaseReference root = FirebaseDatabase
@@ -224,6 +204,7 @@ public class DoctorWriteFragment extends Fragment {
     private interface FirebaseCallback{
         void onCallbackArticles(String fullname);
     }
+
     private void getData(FirebaseCallback f){
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
@@ -250,20 +231,19 @@ public class DoctorWriteFragment extends Fragment {
     }
 
     // Insert data to firebase/storage
-    private void uploadPicture(){
+    private void uploadPicture(String articlekey){
 
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle("image uploading");
         pd.show();
 
-        StorageReference sr = reference.child("images/article_pictures/"+2);
+        StorageReference sr = storageReference.child("images/article_pictures/"+articlekey);
         sr.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getActivity(), "upload successfull", Toast.LENGTH_SHORT).show();
                 System.out.println("berhasil");
                 pd.dismiss();
-                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -271,29 +251,38 @@ public class DoctorWriteFragment extends Fragment {
                 Toast.makeText(getActivity(), "upload failed", Toast.LENGTH_SHORT).show();
                 System.out.println("gagal");
                 pd.dismiss();
-                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                 pd.setMessage("percentage: " + (int) progressPercent + "%");
-                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void postArticle(String author,String title, String content){
+        binding.progressBarArticle.setVisibility(View.VISIBLE);
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
-                .getReference().child("article");
+                .getReference("articles");
 
-        String  currentDateTimeString = DateFormat.getDateTimeInstance()
-                .format(new Date());
-        Article a = new Article(1+"",author,title,content,currentDateTimeString);
-        reference.push().setValue(a);
-        Toast.makeText(getActivity(), "masuk", Toast.LENGTH_SHORT).show();
+        Date date = Calendar. getInstance(). getTime();
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm, dd-mm-yyyy");
+        String strDate = dateFormat. format(date);
+
+        DatabaseReference pushedRef = reference.push();
+        String key = pushedRef.getKey();
+        Article a = new Article(key ,author,title,content,strDate);
+        reference.child(key).setValue(a);
+        Toast.makeText(getActivity(), "Berhasil: "+key, Toast.LENGTH_SHORT).show();
+
+        if (imageUri!=null){
+            uploadPicture(key);
+        }
+        imageUri=null;
+        binding.progressBarArticle.setVisibility(View.GONE);
     }
 
 }

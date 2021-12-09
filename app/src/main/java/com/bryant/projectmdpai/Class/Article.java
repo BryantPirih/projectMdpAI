@@ -1,5 +1,6 @@
 package com.bryant.projectmdpai.Class;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,12 +17,13 @@ public class Article implements Parcelable {
     private String content;
     private String time;
 
-    public Article(String id, String author, String title, String content) {
-        this.id = id;
-        this.author = author;
-        this.title = title;
-        this.content = content;
-    }
+//    public Article(String id, String author, String title, String content) {
+//        this.id = id;
+//        this.author = author;
+//        this.title = title;
+//        this.content = content;
+//        this.time = "";
+//    }
 
     public Article(String id, String author, String title, String content, String time) {
         this.id = id;
@@ -91,8 +93,7 @@ public class Article implements Parcelable {
     }
 
     public String getTimeString(){
-        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd, HH:mm");
-        return formatter.format(time);
+        return time;
     }
 
     @Override
