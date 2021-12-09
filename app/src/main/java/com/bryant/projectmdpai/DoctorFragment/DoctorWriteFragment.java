@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,7 +44,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class DoctorWriteFragment extends Fragment {
@@ -57,7 +60,7 @@ public class DoctorWriteFragment extends Fragment {
     private FirebaseStorage storage;
     private StorageReference reference;
     private Uri imageUri;
-
+    private String tempFullName;
     private FirebaseDatabase database;
     private DatabaseReference dbReference;
 
@@ -94,13 +97,13 @@ public class DoctorWriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        readData(new FirebaseCallback() {
-            @Override
-            public void onCallbackArticles(ArrayList<Article> list) {
-                articles = list;
-                isDataReady();
-            }
-        });
+//        readData(new FirebaseCallback() {
+//            @Override
+//            public void onCallbackArticles(ArrayList<Article> list) {
+//                articles = list;
+//                isDataReady();
+//            }
+//        });
 
 
         ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
@@ -160,17 +163,26 @@ public class DoctorWriteFragment extends Fragment {
                 binding.progressBarArticle.setVisibility(View.VISIBLE);
                 database = FirebaseDatabase.getInstance();
                 dbReference = database.getReference("article");
-
-
-                final String randomKey = UUID.randomUUID().toString();
-                //Article a = new Article(randomKey,);
-
+                tempFullName="";
+                getData(new FirebaseCallback() {
+                    @Override
+                    public void onCallbackArticles(String fullname) {
+                        tempFullName = fullname;
+                        Toast.makeText(getActivity(), "masuk", Toast.LENGTH_SHORT).show();
+                        postArticle(
+                                fullname,
+                                binding.edtDocTitleArticle.getText().toString(),
+                                binding.edtDocContentArticle.getText().toString()
+                        );
+                    }
+                });
                 dbReference.setValue("");
-
                 if (imageUri!=null){
                     uploadPicture();
                 }
                 imageUri=null;
+                System.out.println("berhasil");
+                binding.progressBarArticle.setVisibility(View.GONE);
             }
         });
     }
@@ -181,6 +193,7 @@ public class DoctorWriteFragment extends Fragment {
         return true;
     }
     // GET DATAS FROM DB
+
     private void readData(FirebaseCallback firebaseCallback){
         //articles
         DatabaseReference root = FirebaseDatabase
@@ -202,28 +215,55 @@ public class DoctorWriteFragment extends Fragment {
                         System.out.println(e.getMessage());
                     }
                 }
-                firebaseCallback.onCallbackArticles(articles);
+                //firebaseCallback.onCallbackArticles(articles);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
     private interface FirebaseCallback{
-        void onCallbackArticles(ArrayList<Article> list);
+        void onCallbackArticles(String fullname);
     }
+    private void getData(FirebaseCallback f){
+        DatabaseReference reference = FirebaseDatabase
+                .getInstance(getResources().getString(R.string.url_db))
+                .getReference().child("users");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    if (snapshot.hasChild(uid)){
+                        DataSnapshot userSnapshot = snapshot.child(uid);
+                        tempFullName = userSnapshot.child("full_name").getValue().toString();
+                        f.onCallbackArticles(tempFullName);
+                    }
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    // Insert data to firebase/storage
     private void uploadPicture(){
 
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle("image uploading");
         pd.show();
 
-        StorageReference sr = reference.child("images/article_pictures/"+1);
+        StorageReference sr = reference.child("images/article_pictures/"+2);
         sr.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getActivity(), "upload successfull", Toast.LENGTH_SHORT).show();
                 System.out.println("berhasil");
                 pd.dismiss();
+                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -231,13 +271,29 @@ public class DoctorWriteFragment extends Fragment {
                 Toast.makeText(getActivity(), "upload failed", Toast.LENGTH_SHORT).show();
                 System.out.println("gagal");
                 pd.dismiss();
+                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                 pd.setMessage("percentage: " + (int) progressPercent + "%");
+                //Toast.makeText(getActivity(), "masuk1", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+    private void postArticle(String author,String title, String content){
+        DatabaseReference reference = FirebaseDatabase
+                .getInstance(getResources().getString(R.string.url_db))
+                .getReference().child("article");
+
+        String  currentDateTimeString = DateFormat.getDateTimeInstance()
+                .format(new Date());
+        Article a = new Article(1+"",author,title,content,currentDateTimeString);
+        reference.push().setValue(a);
+        Toast.makeText(getActivity(), "masuk", Toast.LENGTH_SHORT).show();
+    }
+
 }

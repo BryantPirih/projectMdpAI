@@ -11,21 +11,19 @@ import java.util.Date;
 
 public class Article implements Parcelable {
     private String id;
-    private int author;
+    private String author;
     private String title;
     private String content;
-    private Date time;
-    private byte[] image;
+    private String time;
 
-    public Article(String id, int author, String title, String content) {
+    public Article(String id, String author, String title, String content) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.content = content;
-        image=new byte[0];
     }
 
-    public Article(String id, int author, String title, String content, Date time) {
+    public Article(String id, String author, String title, String content, String time) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -35,10 +33,9 @@ public class Article implements Parcelable {
 
     protected Article(Parcel in) {
         id = in.readString();
-        author = in.readInt();
+        author = in.readString();
         title = in.readString();
         content = in.readString();
-        image = in.createByteArray();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {
@@ -61,11 +58,11 @@ public class Article implements Parcelable {
         this.id = id;
     }
 
-    public int getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(int author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -85,20 +82,12 @@ public class Article implements Parcelable {
         this.content = content;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     public String getTimeString(){
@@ -114,9 +103,8 @@ public class Article implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
-        parcel.writeInt(author);
+        parcel.writeString(author);
         parcel.writeString(title);
         parcel.writeString(content);
-        parcel.writeByteArray(image);
     }
 }
