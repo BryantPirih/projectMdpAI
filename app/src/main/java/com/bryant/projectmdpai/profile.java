@@ -22,8 +22,14 @@ import android.widget.Toast;
 
 import com.bryant.projectmdpai.databinding.ActivityProfileBinding;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +49,7 @@ public class profile extends AppCompatActivity {
     private String Document_img1 = "";
     private Uri selectedProfilePicture;
     private Boolean toggle, valid;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,9 +178,33 @@ public class profile extends AppCompatActivity {
                             return;
                         }else{
                             try {
-                                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                                root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());
-                                makeToast("Berhasil mengubah password!");
+                                /*FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());*/
+
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                final String nowEmail = user.getEmail();
+                                AuthCredential credential = EmailAuthProvider.getCredential(nowEmail, oldPw);
+
+                                // Prompt the user to re-provide their sign-in credentials
+                                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            user.updatePassword(binding.edtNewPw.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        makeToast("Berhasil mengubah password!");
+                                                    } else {
+                                                        makeToast("Gagal mengubah password!");
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            makeToast("Error auth failed!");
+                                        }
+                                    }
+                                });
                             }catch (Exception exception){
                                 System.out.println(exception);
                             }
