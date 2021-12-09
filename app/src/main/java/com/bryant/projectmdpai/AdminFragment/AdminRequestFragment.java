@@ -1,5 +1,6 @@
 package com.bryant.projectmdpai.AdminFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.bryant.projectmdpai.Adapter.DoctorVerifAdapter;
 import com.bryant.projectmdpai.Adapter.UserListAdapter;
 import com.bryant.projectmdpai.AdminHome;
+import com.bryant.projectmdpai.AdminVerification;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
 import com.google.firebase.database.DataSnapshot;
@@ -106,7 +108,10 @@ public class AdminRequestFragment extends Fragment {
                 adapter.setOnItemClickCallback(new DoctorVerifAdapter.OnItemClickCallback() {
                     @Override
                     public void onItemClicked(User user) {
-                        Toast.makeText(getContext(), user.getFull_name(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), user.getFull_name(), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getContext(), AdminVerification.class);
+                        i.putExtra("user", user);
+                        startActivity(i);
                     }
                 });
             }
