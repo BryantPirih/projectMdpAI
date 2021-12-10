@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.bryant.projectmdpai.databinding.ActivityDoctorProfileBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,17 +42,24 @@ public class DoctorProfile extends AppCompatActivity {
 
     private ActivityDoctorProfileBinding binding;
     private String Document_img1 = "";
-    private String uid;
+    private String uid, oldPw;
     private Uri selectedProfilePicture;
     private Uri selectedLicense;
+    private Boolean toggle, valid;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDoctorProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        toggle = false;
+        toggleVisibility(toggle);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (getIntent().hasExtra("uid")){
-            uid=getIntent().getStringExtra("uid");
+            uid = getIntent().getStringExtra("uid");
         }
         loadProfile();
 
@@ -74,7 +84,24 @@ public class DoctorProfile extends AppCompatActivity {
         binding.btnChangePwDocProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggle = true;
+                toggleVisibility(toggle);
+                getPwNowUser();
 
+                binding.btnNextChangeDocPw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        changePw();
+                    }
+                });
+
+                binding.btnBackToDocProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toggle = false;
+                        toggleVisibility(toggle);
+                    }
+                });
             }
         });
 
@@ -110,6 +137,113 @@ public class DoctorProfile extends AppCompatActivity {
                 startActivity(toDocHome);
             }
         });
+    }
+
+    private void getPwNowUser(){
+        DatabaseReference dbRef = FirebaseDatabase
+                .getInstance(getResources().getString(R.string.url_db))
+                .getReference().child("users");
+
+        //get user password
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    if (snapshot.hasChild(uid)){
+                        DataSnapshot userSnapshot = snapshot.child(uid);
+                        oldPw = userSnapshot.child("password").getValue().toString();
+                    }
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                makeToast("Failed to get data");
+            }
+        });
+    }
+
+    private void changePw(){
+        if(TextUtils.isEmpty(binding.edtNowDocPw.getText().toString())){
+            binding.edtNowDocPw.setError("Current Password is required!");
+            binding.edtNowDocPw.requestFocus();
+            valid = false;
+            return;
+        }else if(!binding.edtNowDocPw.getText().toString().equals(oldPw)){
+            binding.edtNowDocPw.setError("Current Password invalid!");
+            binding.edtNowDocPw.requestFocus();
+            valid = false;
+            return;
+        }else{
+            valid = true;
+            if(valid){
+                binding.textView42.setVisibility(View.INVISIBLE);
+                binding.edtNowDocPw.setVisibility(View.INVISIBLE);
+                binding.btnNextChangeDocPw.setVisibility(View.INVISIBLE);
+                binding.btnBackToDocProfile.setVisibility(View.INVISIBLE);
+                binding.textView44.setVisibility(View.VISIBLE);
+                binding.edtNewDocPw.setVisibility(View.VISIBLE);
+                binding.textView45.setVisibility(View.VISIBLE);
+                binding.edtConDocPw.setVisibility(View.VISIBLE);
+                binding.btnUpdateNewDocPw.setVisibility(View.VISIBLE);
+
+                binding.btnUpdateNewDocPw.setOnClickListener(view -> {
+                    if(TextUtils.isEmpty(binding.edtNewDocPw.getText().toString())){
+                        binding.edtNewDocPw.setError("New Password is required!");
+                        binding.edtNewDocPw.requestFocus();
+                        return;
+                    }else if(!binding.edtConDocPw.getText().toString().equals(binding.edtNewDocPw.getText().toString())){
+                        binding.edtConDocPw.setError("Confirmation Password not matched!");
+                        binding.edtConDocPw.requestFocus();
+                        return;
+                    }else{
+                        String newPassword = binding.edtNewDocPw.getText().toString();
+
+                        try {
+                            user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                    root.getReference("users/"+uid+"/password").setValue(newPassword);
+                                    makeToast("Password Reset Successfully!");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    makeToast("Password Reset Failed. Password Should be at least 6 characters!");
+                                }
+                            });
+                        }catch (Exception exception){
+                            System.out.println(exception);
+                        }
+
+                        toggle = false;
+                        toggleVisibility(toggle);
+                    }
+                });
+            }
+        }
+    }
+
+    private void toggleVisibility(boolean yes){
+        if (yes){
+            binding.btnChangePicDocProfile.setVisibility(View.INVISIBLE);
+            binding.progressBarProfileImage.setVisibility(View.INVISIBLE);
+            binding.scView.setVisibility(View.INVISIBLE);
+            binding.btnChangePwDocProfile.setVisibility(View.INVISIBLE);
+            binding.btnChangeProfileDoc.setVisibility(View.INVISIBLE);
+            binding.ChangePwDocLayout.setVisibility(View.VISIBLE);
+            binding.btnBackDoctorHome.setVisibility(View.INVISIBLE);
+        }else{
+            binding.btnChangePicDocProfile.setVisibility(View.VISIBLE);
+            binding.progressBarProfileImage.setVisibility(View.VISIBLE);
+            binding.scView.setVisibility(View.VISIBLE);
+            binding.btnChangePwDocProfile.setVisibility(View.VISIBLE);
+            binding.btnChangeProfileDoc.setVisibility(View.VISIBLE);
+            binding.ChangePwDocLayout.setVisibility(View.INVISIBLE);
+            binding.btnBackDoctorHome.setVisibility(View.VISIBLE);
+        }
     }
 
     void makeToast(String msg){

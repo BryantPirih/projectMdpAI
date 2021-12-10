@@ -185,7 +185,7 @@ public class profile extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                                    root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());
+                                    root.getReference("users/"+uid+"/password").setValue(newPassword);
                                     makeToast("Password Reset Successfully!");
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
