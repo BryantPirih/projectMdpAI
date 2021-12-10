@@ -66,54 +66,35 @@ public class profile extends AppCompatActivity {
         }
 
         //button change picture
-        binding.btnChangePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage("profile_picture");
-            }
-        });
+        binding.btnChangePic.setOnClickListener(view -> selectImage("profile_picture"));
 
         //button change password
-        binding.btnChangePass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle = true;
+        binding.btnChangePass.setOnClickListener(view -> {
+            toggle = true;
+            toggleVisibility(toggle);
+            getPwNowUser();
+
+            binding.btnNextChangePw.setOnClickListener(view1 -> changePw());
+
+            binding.btnBackToUsProfile.setOnClickListener(view12 -> {
+                toggle = false;
                 toggleVisibility(toggle);
-                getPwNowUser();
-
-                binding.btnNextChangePw.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        changePw();
-                    }
-                });
-
-                binding.btnBackToUsProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        toggle = false;
-                        toggleVisibility(toggle);
-                    }
-                });
-            }
+            });
         });
 
         //button save
-        binding.btnChangeProf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedProfilePicture!=null){
-                    uploadImage(selectedProfilePicture,"images/profile_pictures/",uid);
-                }
-                //save other user profiles
-                try {
-                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                    root.getReference("users/"+uid+"/desc").setValue(binding.txtDescUserProfile.getText().toString());
-                    root.getReference("users/"+uid+"/address").setValue(binding.txtAddressUserProfile.getText().toString());
-                    makeToast("Berhasil mengubah profile");
-                }catch (Exception exception){
-                    System.out.println(exception);
-                }
+        binding.btnChangeProf.setOnClickListener(view -> {
+            if (selectedProfilePicture!=null){
+                uploadImage(selectedProfilePicture,"images/profile_pictures/",uid);
+            }
+            //save other user profiles
+            try {
+                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                root.getReference("users/"+uid+"/desc").setValue(binding.txtDescUserProfile.getText().toString());
+                root.getReference("users/"+uid+"/address").setValue(binding.txtAddressUserProfile.getText().toString());
+                makeToast("Berhasil mengubah profile");
+            }catch (Exception exception){
+                System.out.println(exception);
             }
         });
         loadProfile();
@@ -181,19 +162,11 @@ public class profile extends AppCompatActivity {
                         String newPassword = binding.edtNewPw.getText().toString();
 
                         try {
-                            user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                                    root.getReference("users/"+uid+"/password").setValue(newPassword);
-                                    makeToast("Password Reset Successfully!");
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    makeToast("Password Reset Failed. Password Should be at least 6 characters!");
-                                }
-                            });
+                            user.updatePassword(newPassword).addOnSuccessListener(unused -> {
+                                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                root.getReference("users/"+uid+"/password").setValue(newPassword);
+                                makeToast("Password Reset Successfully!");
+                            }).addOnFailureListener(e -> makeToast("Password Reset Failed. Password Should be at least 6 characters!"));
                         }catch (Exception exception){
                             System.out.println(exception);
                         }

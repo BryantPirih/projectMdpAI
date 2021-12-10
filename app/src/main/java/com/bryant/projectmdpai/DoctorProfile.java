@@ -64,78 +64,53 @@ public class DoctorProfile extends AppCompatActivity {
         loadProfile();
 
         //button change picture
-        binding.btnChangePicDocProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage("profile_picture");
-            }
-        });
+        binding.btnChangePicDocProfile.setOnClickListener(view -> selectImage("profile_picture"));
 
         //button Add License Image
-        binding.txtAddLicenseDocProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeToast("Add License Image!");
-                selectImage("license");
-            }
+        binding.txtAddLicenseDocProfile.setOnClickListener(view -> {
+            makeToast("Add License Image!");
+            selectImage("license");
         });
 
         //button change password
-        binding.btnChangePwDocProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle = true;
+        binding.btnChangePwDocProfile.setOnClickListener(view -> {
+            toggle = true;
+            toggleVisibility(toggle);
+            getPwNowUser();
+
+            binding.btnNextChangeDocPw.setOnClickListener(view12 -> changePw());
+
+            binding.btnBackToDocProfile.setOnClickListener(view1 -> {
+                toggle = false;
                 toggleVisibility(toggle);
-                getPwNowUser();
-
-                binding.btnNextChangeDocPw.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        changePw();
-                    }
-                });
-
-                binding.btnBackToDocProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        toggle = false;
-                        toggleVisibility(toggle);
-                    }
-                });
-            }
+            });
         });
 
         //button change profile
-        binding.btnChangeProfileDoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //save profile picture name by uid
-                if (selectedProfilePicture!=null){
-                    uploadImage(selectedProfilePicture,"images/profile_pictures/",uid);
-                }
-                if (selectedLicense!=null){
-                    uploadImage(selectedLicense,"images/licenses/",uid);
-                }
-                //save other user profiles
-                try {
-                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                    root.getReference("users/"+uid+"/desc").setValue(binding.txtDescDocProfile.getText().toString());
-                    root.getReference("users/"+uid+"/address").setValue(binding.txtAddressDocProfile.getText().toString());
-                    makeToast("Berhasil mengubah profile");
-                }catch (Exception exception){
-                    System.out.println(exception);
-                }
+        binding.btnChangeProfileDoc.setOnClickListener(view -> {
+            //save profile picture name by uid
+            if (selectedProfilePicture!=null){
+                uploadImage(selectedProfilePicture,"images/profile_pictures/",uid);
+            }
+            if (selectedLicense!=null){
+                uploadImage(selectedLicense,"images/licenses/",uid);
+            }
+            //save other user profiles
+            try {
+                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                root.getReference("users/"+uid+"/desc").setValue(binding.txtDescDocProfile.getText().toString());
+                root.getReference("users/"+uid+"/address").setValue(binding.txtAddressDocProfile.getText().toString());
+                makeToast("Berhasil mengubah profile");
+            }catch (Exception exception){
+                System.out.println(exception);
             }
         });
 
         //button back home
-        binding.btnBackDoctorHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toDocHome = new Intent(getApplicationContext(), DoctorHome.class);
-                toDocHome.putExtra("uid", uid);
-                startActivity(toDocHome);
-            }
+        binding.btnBackDoctorHome.setOnClickListener(view -> {
+            Intent toDocHome = new Intent(getApplicationContext(), DoctorHome.class);
+            toDocHome.putExtra("uid", uid);
+            startActivity(toDocHome);
         });
     }
 
@@ -201,19 +176,11 @@ public class DoctorProfile extends AppCompatActivity {
                         String newPassword = binding.edtNewDocPw.getText().toString();
 
                         try {
-                            user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                                    root.getReference("users/"+uid+"/password").setValue(newPassword);
-                                    makeToast("Password Reset Successfully!");
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    makeToast("Password Reset Failed. Password Should be at least 6 characters!");
-                                }
-                            });
+                            user.updatePassword(newPassword).addOnSuccessListener(unused -> {
+                                FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                root.getReference("users/"+uid+"/password").setValue(newPassword);
+                                makeToast("Password Reset Successfully!");
+                            }).addOnFailureListener(e -> makeToast("Password Reset Failed. Password Should be at least 6 characters!"));
                         }catch (Exception exception){
                             System.out.println(exception);
                         }
