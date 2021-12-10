@@ -108,9 +108,5 @@ public class AdminUsersFragment extends Fragment {
                 System.out.println("Fail to read");
             }
         });
-
-
-
-
     }
 }

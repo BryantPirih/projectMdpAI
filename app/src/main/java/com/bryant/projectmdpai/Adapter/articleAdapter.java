@@ -13,14 +13,11 @@ import com.bryant.projectmdpai.databinding.ItemCardArticleBinding;
 import java.util.ArrayList;
 
 public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> {
+
     ArrayList<Article> articles = new ArrayList<>();
-    ArrayList<likeComments> LikeComments = new ArrayList<>();
 
-
-
-    public articleAdapter(ArrayList<Article> articles, ArrayList<likeComments> likeComments) {
+    public articleAdapter(ArrayList<Article> articles) {
         this.articles = articles;
-        this.LikeComments = likeComments;
     }
 
 
@@ -36,8 +33,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
     @Override
     public void onBindViewHolder(@NonNull articleAdapter.holder holder, int position) {
         Article a = articles.get(position);
-        likeComments l = LikeComments.get(position);
-        holder.bind(a,l);
+        holder.bind(a);
     }
 
     @Override
@@ -52,23 +48,10 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
             this.binding = itemCardArticleBinding;
         }
 
-        void bind(Article article,likeComments like){
+        void bind(Article article){
             binding.txtCardArticleTitle.setText(article.getTitle());
             binding.txtCardArticleDatetime.setText(article.getTimeString());
             binding.txtCardArticleAuthor.setText(article.getAuthor());
-            int temp=0,temp1=0;
-            if (LikeComments.size()!=0 || !LikeComments.isEmpty()){
-                for (int i = 0; i < LikeComments.size(); i++) {
-                    if (LikeComments.get(i).getLike()==1){
-                        temp+=1;
-                    }
-                    if(LikeComments.get(i).getComment()!=null || LikeComments.get(i).getComment()!=""){
-                        temp1+=1;
-                    }
-                }
-            }
-            binding.txtJumlahLike.setText(temp+"");
-            binding.txtJumlahComment.setText(temp1);
         }
     }
 

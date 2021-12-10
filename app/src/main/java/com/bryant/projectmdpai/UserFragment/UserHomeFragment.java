@@ -32,14 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserHomeFragment extends Fragment {
-    private static final String ARG_PARAM_MENU = "param-menu";
 
+    private static final String ARG_PARAM_MENU = "param-menu";
     private FragmentUserHomeBinding binding;
     private String menu;
-    ArrayList<Article> articles = new ArrayList<>();
-    ArrayList<likeComments> LikeComments = new ArrayList<>();
 
-    DatabaseReference database;
+    ArrayList<Article> articles = new ArrayList<>();
     articleAdapter aa;
 
     public UserHomeFragment() {
@@ -60,38 +58,6 @@ public class UserHomeFragment extends Fragment {
         if (getArguments() != null) {
             menu = getArguments().getString(ARG_PARAM_MENU);
         }
-
-        database = FirebaseDatabase.getInstance().getReference("articles");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapShot: snapshot.getChildren()) {
-                    Article a = dataSnapShot.getValue(Article.class);
-                    articles.add(a);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        database = FirebaseDatabase.getInstance().getReference("likeComments");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapShot: snapshot.getChildren()) {
-                    likeComments l = dataSnapShot.getValue(likeComments.class);
-                    LikeComments.add(l);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 
     @Override
@@ -105,28 +71,39 @@ public class UserHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerView();
-        //binding.txtTitle.setText(menu);
     }
 
-    void setUpRecyclerView(){
-        binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvDataUserHome.setHasFixedSize(true);
+    private void setUpRecyclerView(){
+        articles = new ArrayList<>();
 
-        aa = new articleAdapter(articles,LikeComments);
+        FirebaseDatabase database = FirebaseDatabase
+                .getInstance(getResources().getString(R.string.url_db));
+        DatabaseReference reference = database.getReference("articles");
 
-        binding.rvDataUserHome.setAdapter(aa);
-    }
-
-    private void getData(FirebaseCallback firebaseCallback){
-        DatabaseReference root = FirebaseDatabase
-                .getInstance(getResources().getString(R.string.url_db))
-                .getReference();
-        DatabaseReference articleRef = root.child("");
-    }
-
-    private interface FirebaseCallback{
-        void onCallbackRules(ArrayList<Rules> list);
-        void onCallbackQuestion(ArrayList<QuestionES> list);
-        void onCallbackSolution(ArrayList<Solution> list);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren() ) {
+                    try {
+                        String author = ds.child("author").getValue().toString();
+                        String title = ds.child("title").getValue().toString();
+                        String content = ds.child("content").getValue().toString();
+                        String id = ds.child("id").getValue().toString();
+                        String timeString = ds.child("timeString").getValue().toString();
+                        articles.add( new Article(id,author,title,content,timeString));
+                        System.out.println("Size of article : "+articles.size());
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
+                aa = new articleAdapter(articles);
+                binding.rvDataUserHome.setAdapter(aa);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("failed to read article");
+            }
+        });
     }
 }
