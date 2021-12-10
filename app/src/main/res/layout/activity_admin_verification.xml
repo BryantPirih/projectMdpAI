@@ -63,11 +63,12 @@
         android:layout_width="378dp"
         android:layout_height="217dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="17dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_admin_detail_address"
+        app:layout_constraintTop_toBottomOf="@+id/txt_admin_detail_alert"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <Button
@@ -77,22 +78,24 @@
         android:layout_marginStart="153dp"
         android:layout_marginEnd="154dp"
         android:layout_marginBottom="30dp"
+        android:onClick="approve"
         android:text="Approve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView48"
+        android:id="@+id/txt_admin_detail_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="128dp"
         android:text="Doctor is still not verified"
         android:textColor="#FF0000"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_admin_detail_verif" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_admin_detail_address" />
 </androidx.constraintlayout.widget.ConstraintLayout>
