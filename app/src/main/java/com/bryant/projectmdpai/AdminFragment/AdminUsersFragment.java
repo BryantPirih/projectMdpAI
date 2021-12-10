@@ -90,7 +90,7 @@ public class AdminUsersFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot childSnapshot : snapshot.getChildren()){
-                    User u = childSnapshot.getValue(User.class);
+                    User u = (User)childSnapshot.getValue(User.class);
                     if(!u.getRole().equals("Admin")){
                         System.out.println(u.getFull_name());
                         listUser.add(u);

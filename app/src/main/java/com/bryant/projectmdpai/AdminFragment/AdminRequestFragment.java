@@ -112,6 +112,7 @@ public class AdminRequestFragment extends Fragment {
                         Intent i = new Intent(getContext(), AdminVerification.class);
                         i.putExtra("user", user);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 });
             }

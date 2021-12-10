@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,13 +14,14 @@ import com.bryant.projectmdpai.Class.User;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class AdminVerification extends AppCompatActivity {
     Intent secondIntent;
     User user;
-    TextView txtFullName, txtEmail, txtAddress;
+    TextView txtFullName, txtEmail, txtAddress, txtAlert;
     ImageView imgProfile, imgVerif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class AdminVerification extends AppCompatActivity {
         txtFullName = findViewById(R.id.txt_admin_detail_fullname);
         txtEmail = findViewById(R.id.txt_admin_detail_email);
         txtAddress = findViewById(R.id.txt_admin_detail_address);
+        txtAlert = findViewById(R.id.txt_admin_detail_alert);
         imgProfile = findViewById(R.id.img_admin_detail_profile);
         imgVerif = findViewById(R.id.img_admin_detail_verif);
 
@@ -76,7 +79,21 @@ public class AdminVerification extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                txtAlert.setText(txtAlert.getText().toString()+"\nNo License Found");
             }
         });
+    }
+
+    public void approve(View v){
+        try{
+            FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+            root.getReference("users/"+user.getId()+"/status").setValue(1);
+            Intent i = new Intent(AdminVerification.this, AdminHome.class);
+            startActivity(i);
+            finish();
+        }
+        catch (Exception x){
+            System.out.println(x.getMessage());
+        }
     }
 }
