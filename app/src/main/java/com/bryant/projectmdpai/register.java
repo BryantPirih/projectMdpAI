@@ -102,6 +102,11 @@ public class register extends AppCompatActivity {
             binding.edtPasswordRegister.requestFocus();
             return;
         }
+        if(password.length() <= 6){
+            binding.edtPasswordRegister.setError("Password Should be at least 6 characters!");
+            binding.edtPasswordRegister.requestFocus();
+            return;
+        }
         if(!password.equals(password_confirmation)){
             binding.edtConfirmRegister.setError("Password Unmatched!");
             binding.edtConfirmRegister.requestFocus();
@@ -139,6 +144,7 @@ public class register extends AppCompatActivity {
                                     makeToast("users/id nya belom masuk");
                                 }
                                 binding.progressBarRegis.setVisibility(View.GONE);
+                                clearField();
                             }else{
                                 makeToast("Failed to register! Try again!");
                                 binding.progressBarRegis.setVisibility(View.GONE);
@@ -153,6 +159,16 @@ public class register extends AppCompatActivity {
             }
         });
     }
+
+    void clearField(){
+        binding.edtUsernameRegister.setText("");
+        binding.edtEmailRegister.setText("");
+        binding.edtPasswordRegister.setText("");
+        binding.edtFullName.setText("");
+        binding.edtConfirmRegister.setText("");
+        binding.edtAddressRegister.setText("");
+    }
+
     public void btnToLogin_Clicked() {
         Intent i = new Intent(register.this,MainActivity.class);
         startActivity(i);
