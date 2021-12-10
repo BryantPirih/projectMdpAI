@@ -49,7 +49,7 @@ public class profile extends AppCompatActivity {
     private String Document_img1 = "";
     private Uri selectedProfilePicture;
     private Boolean toggle, valid;
-    private FirebaseUser user;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,10 @@ public class profile extends AppCompatActivity {
         toggle = false;
         toggleVisibility(toggle);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (getIntent().hasExtra("uid")){
-            uid=getIntent().getStringExtra("uid");
+            uid = getIntent().getStringExtra("uid");
         }
 
         //button change picture
@@ -165,53 +167,39 @@ public class profile extends AppCompatActivity {
                 binding.textView45.setVisibility(View.VISIBLE);
                 binding.edtConPw.setVisibility(View.VISIBLE);
                 binding.btnUpdateNewPw.setVisibility(View.VISIBLE);
-                binding.btnUpdateNewPw.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(TextUtils.isEmpty(binding.edtNewPw.getText().toString())){
-                            binding.edtNewPw.setError("New Password is required!");
-                            binding.edtNewPw.requestFocus();
-                            return;
-                        }else if(!binding.edtConPw.getText().toString().equals(binding.edtNewPw.getText().toString())){
-                            binding.edtConPw.setError("Confirmation Password not matched!");
-                            binding.edtConPw.requestFocus();
-                            return;
-                        }else{
-                            try {
-                                /*FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-                                root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());*/
 
-                                user = FirebaseAuth.getInstance().getCurrentUser();
-                                final String nowEmail = user.getEmail();
-                                AuthCredential credential = EmailAuthProvider.getCredential(nowEmail, oldPw);
+                binding.btnUpdateNewPw.setOnClickListener(view -> {
+                    if(TextUtils.isEmpty(binding.edtNewPw.getText().toString())){
+                        binding.edtNewPw.setError("New Password is required!");
+                        binding.edtNewPw.requestFocus();
+                        return;
+                    }else if(!binding.edtConPw.getText().toString().equals(binding.edtNewPw.getText().toString())){
+                        binding.edtConPw.setError("Confirmation Password not matched!");
+                        binding.edtConPw.requestFocus();
+                        return;
+                    }else{
+                        String newPassword = binding.edtNewPw.getText().toString();
 
-                                // Prompt the user to re-provide their sign-in credentials
-                                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            user.updatePassword(binding.edtNewPw.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        makeToast("Berhasil mengubah password!");
-                                                    } else {
-                                                        makeToast("Gagal mengubah password!");
-                                                    }
-                                                }
-                                            });
-                                        } else {
-                                            makeToast("Error auth failed!");
-                                        }
-                                    }
-                                });
-                            }catch (Exception exception){
-                                System.out.println(exception);
-                            }
-
-                            toggle = false;
-                            toggleVisibility(toggle);
+                        try {
+                            user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                                    root.getReference("users/"+uid+"/password").setValue(binding.edtNewPw.getText().toString());
+                                    makeToast("Password Reset Successfully!");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    makeToast("Password Reset Failed. Password Should be at least 6 characters!");
+                                }
+                            });
+                        }catch (Exception exception){
+                            System.out.println(exception);
                         }
+
+                        toggle = false;
+                        toggleVisibility(toggle);
                     }
                 });
             }
