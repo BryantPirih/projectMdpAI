@@ -1,13 +1,14 @@
 package com.bryant.projectmdpai.Adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bryant.projectmdpai.Class.Article;
-import com.bryant.projectmdpai.Class.likeComments;
+import com.bryant.projectmdpai.Class.like;
 import com.bryant.projectmdpai.databinding.ItemCardArticleBinding;
 
 import java.util.ArrayList;
@@ -56,7 +57,8 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
     }
 
 //    public interface OnItemClickCallback{
-//        void onItemClicked(film film);
+//        void onItemClicked(Article a);
+//        void onItemClicked_Like(like l);
 //    }
 }
 

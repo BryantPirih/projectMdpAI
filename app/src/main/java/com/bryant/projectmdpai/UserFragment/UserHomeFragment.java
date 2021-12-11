@@ -1,6 +1,5 @@
 package com.bryant.projectmdpai.UserFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,14 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bryant.projectmdpai.Adapter.articleAdapter;
 import com.bryant.projectmdpai.Class.Article;
-import com.bryant.projectmdpai.Class.ExpertSystem.QuestionES;
-import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
-import com.bryant.projectmdpai.Class.ExpertSystem.Solution;
-import com.bryant.projectmdpai.Class.likeComments;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentUserHomeBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -27,9 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserHomeFragment extends Fragment {
 
