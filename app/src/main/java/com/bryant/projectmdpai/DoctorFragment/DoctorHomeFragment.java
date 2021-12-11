@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.bryant.projectmdpai.Adapter.articleAdapter;
 import com.bryant.projectmdpai.Class.Article;
+import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.Class.comment;
 import com.bryant.projectmdpai.Class.like;
 import com.bryant.projectmdpai.Class.photo;
@@ -34,6 +35,7 @@ public class DoctorHomeFragment extends Fragment {
     private Fragment fragment;
 
     ArrayList<Article> articles = new ArrayList<>();
+    ArrayList<User> listUser = new ArrayList<>();
     ArrayList<like> likes = new ArrayList<>();
     ArrayList<photo> photos = new ArrayList<>();
     articleAdapter aa;
@@ -95,14 +97,34 @@ public class DoctorHomeFragment extends Fragment {
                         String id = ds.child("id").getValue().toString();
                         String timeString = ds.child("timeString").getValue().toString();
                         articles.add( new Article(id,author,title,content,timeString));
-                        System.out.println("Size of article : "+articles.size());
+//                        System.out.println("Size of article : "+articles.size());
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
                 }
-                binding.rvDataDocArticle.setLayoutManager(new LinearLayoutManager(getContext()));
-                aa = new articleAdapter(articles);
-                binding.rvDataDocArticle.setAdapter(aa);
+                try {
+                    FirebaseDatabase database = FirebaseDatabase
+                            .getInstance(getResources().getString(R.string.url_db));
+                    DatabaseReference ref = database.getReference("users");
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot childSnapshot : snapshot.getChildren()){
+                                User u = (User)childSnapshot.getValue(User.class);
+                                listUser.add(u);
+                            }
+                            binding.rvDataDocArticle.setLayoutManager(new LinearLayoutManager(getContext()));
+                            aa = new articleAdapter(articles,listUser);
+                            binding.rvDataDocArticle.setAdapter(aa);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            System.out.println("Fail to read");
+                        }
+                    });
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

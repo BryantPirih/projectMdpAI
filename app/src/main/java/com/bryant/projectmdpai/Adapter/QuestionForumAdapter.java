@@ -1,6 +1,7 @@
 package com.bryant.projectmdpai.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bryant.projectmdpai.Class.Question;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -46,13 +53,37 @@ public class QuestionForumAdapter  extends RecyclerView.Adapter<QuestionForumAda
         Question q = listQuestion.get(position);
         holder.txtTitle.setText(q.getTitle());
         holder.txtDate.setText("-"+q.getTime());
+
         for(User u : listUser){
             if(u.getId().equals(q.getAuthor())){
-                holder.txtUserFullName.setText("Questioner: "+u.getFull_name());
+                try {
+                    holder.txtUserFullName.setText("Questioner: "+u.getFull_name());
+                    StorageReference storageRef = FirebaseStorage
+                            .getInstance("gs://mdp-project-9db6f.appspot.com/")
+                            .getReference().child("images");
+                    storageRef.child("profile_pictures").child(u.getId())
+                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageURL = uri.toString();
+                            Glide.with(context)
+                                    .load(imageURL)
+                                    .apply(new RequestOptions().override(40, 40))
+                                    .placeholder(R.drawable.ic_baseline_person_24)
+                                    .into(holder.imgProfile);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                break;
             }
         }
-
-
     }
 
     @Override

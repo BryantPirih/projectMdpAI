@@ -91,35 +91,32 @@ public class UserForumFragment extends Fragment {
                     Question q = childSnapshot.getValue(Question.class);
                         listQuestion.add(q);
                 }
-
-                FirebaseDatabase database = FirebaseDatabase
-                        .getInstance(getResources().getString(R.string.url_db));
-                DatabaseReference ref = database.getReference("users");
-
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot childSnapshot : snapshot.getChildren()){
-                            User u = (User)childSnapshot.getValue(User.class);
-                            if(u.getRole().equals("User")){
-                                listUser.add(u);
+                try {
+                    FirebaseDatabase database = FirebaseDatabase
+                            .getInstance(getResources().getString(R.string.url_db));
+                    DatabaseReference ref = database.getReference("users");
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot childSnapshot : snapshot.getChildren()){
+                                User u = (User)childSnapshot.getValue(User.class);
+                                if(u.getRole().equals("User")){
+                                    listUser.add(u);
+                                }
                             }
 
+                            binding.rvDataUserForum.setLayoutManager(new LinearLayoutManager(getContext()));
+                            qa = new QuestionForumAdapter(listQuestion, listUser);
+                            binding.rvDataUserForum.setAdapter(qa);
                         }
-
-                        binding.rvDataUserForum.setLayoutManager(new LinearLayoutManager(getContext()));
-                        qa = new QuestionForumAdapter(listQuestion, listUser);
-                        binding.rvDataUserForum.setAdapter(qa);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        System.out.println("Fail to read");
-                    }
-                });
-
-
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            System.out.println("Fail to read");
+                        }
+                    });
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
