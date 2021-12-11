@@ -83,11 +83,10 @@ public class DoctorWriteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         if (getArguments() != null) {
             uid = getArguments().getString(ARG_PARAM_UID);
         }
+
         firebaseStorage = FirebaseStorage.getInstance(getActivity().getResources().getString(R.string.url_storage));
         storageReference = firebaseStorage.getReference();
         imageUri=null;
@@ -98,7 +97,6 @@ public class DoctorWriteFragment extends Fragment {
                 tempFullName = fullname;
             }
         });
-
         ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -191,7 +189,6 @@ public class DoctorWriteFragment extends Fragment {
             }
         });
     }
-
     // Insert data to firebase/storage
     private void uploadPicture(String articlekey){
         final ProgressDialog pd = new ProgressDialog(getActivity());
@@ -221,7 +218,6 @@ public class DoctorWriteFragment extends Fragment {
             }
         });
     }
-
     private void postArticle(String author,String title, String content){
         binding.progressBarArticle.setVisibility(View.VISIBLE);
         DatabaseReference reference = FirebaseDatabase
@@ -234,7 +230,7 @@ public class DoctorWriteFragment extends Fragment {
 
         DatabaseReference pushedRef = reference.push();
         String key = pushedRef.getKey();
-        Article a = new Article(key ,author,title,content,strDate);
+        Article a = new Article(key,uid,author,title,content,strDate,0,0,null);
         reference.child(key).setValue(a).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

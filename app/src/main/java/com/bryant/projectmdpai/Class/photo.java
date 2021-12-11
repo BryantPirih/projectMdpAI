@@ -1,17 +1,27 @@
 package com.bryant.projectmdpai.Class;
 
 public class photo {
-    private Byte image;
+    private String id;
+    private byte[] image;
 
-    public photo(Byte image) {
-        this.image = image;
+    public String getId() {
+        return id;
     }
 
-    public Byte getImage() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte image) {
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public photo(String id, byte[] image) {
+        this.id = id;
         this.image = image;
     }
 }

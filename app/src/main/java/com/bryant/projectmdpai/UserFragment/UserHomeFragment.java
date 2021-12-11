@@ -1,5 +1,6 @@
 package com.bryant.projectmdpai.UserFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bryant.projectmdpai.Adapter.QuestionForumAdapter;
 import com.bryant.projectmdpai.Adapter.articleAdapter;
@@ -17,12 +19,14 @@ import com.bryant.projectmdpai.Class.Article;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentUserHomeBinding;
+import com.bryant.projectmdpai.readArticle;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserHomeFragment extends Fragment {
@@ -65,16 +69,34 @@ public class UserHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpRecyclerView();
+
+        getData(new FirebaseCallback() {
+            @Override
+            public void onCallbackArticles(ArrayList<Article> a) {
+                articles = a;
+                setUpRecyclerView();
+            }
+        });
     }
-
     private void setUpRecyclerView(){
+        binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
+        aa = new articleAdapter(articles);
+        aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Article article) {
+                Intent i = new Intent(getContext(), readArticle.class);
+                i.putExtra("pass",article);
+                System.out.println(article.getContent());
+                startActivity(i);
+            }
+        });
+        binding.rvDataUserHome.setAdapter(aa);
+    }
+    private void getData(FirebaseCallback f){
         articles = new ArrayList<>();
-
         FirebaseDatabase database = FirebaseDatabase
                 .getInstance(getActivity().getResources().getString(R.string.url_db));
         DatabaseReference reference = database.getReference("articles");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,13 +106,18 @@ public class UserHomeFragment extends Fragment {
                         String title = ds.child("title").getValue().toString();
                         String content = ds.child("content").getValue().toString();
                         String id = ds.child("id").getValue().toString();
+                        String id_author = ds.child("id_author").getValue().toString();
                         String timeString = ds.child("timeString").getValue().toString();
-                        articles.add( new Article(id,author,title,content,timeString));
+                        int jl = Integer.parseInt(ds.child("jumlahLike").getValue().toString()) ;
+                        int jc = Integer.parseInt(ds.child("jumlahComment").getValue().toString());
+                        articles.add( new Article(id,id_author,author,title,content,timeString,jl,jc,null));
                         System.out.println("Size of article : "+articles.size());
+                        f.onCallbackArticles(articles);
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
                 }
+<<<<<<< Updated upstream
                 try {
                     FirebaseDatabase database = FirebaseDatabase
                             .getInstance(getActivity().getResources().getString(R.string.url_db));
@@ -115,11 +142,16 @@ public class UserHomeFragment extends Fragment {
                 }catch (Exception e){
                     System.out.println(e.getMessage());
                 }
+=======
+>>>>>>> Stashed changes
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("failed to read article");
             }
         });
+    }
+    private interface FirebaseCallback{
+        void onCallbackArticles(ArrayList<Article> a);
     }
 }

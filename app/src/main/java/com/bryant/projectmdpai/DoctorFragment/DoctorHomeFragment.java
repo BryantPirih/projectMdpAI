@@ -1,5 +1,7 @@
 package com.bryant.projectmdpai.DoctorFragment;
 
+import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,11 +21,16 @@ import com.bryant.projectmdpai.Class.like;
 import com.bryant.projectmdpai.Class.photo;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentDoctorHomeBinding;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -79,7 +86,6 @@ public class DoctorHomeFragment extends Fragment {
         });
         setUpRecyclerView();
     }
-
     private void setUpRecyclerView(){
         articles = new ArrayList<>();
 
@@ -95,9 +101,17 @@ public class DoctorHomeFragment extends Fragment {
                         String title = ds.child("title").getValue().toString();
                         String content = ds.child("content").getValue().toString();
                         String id = ds.child("id").getValue().toString();
+                        String id_author = ds.child("id_author").getValue().toString();
                         String timeString = ds.child("timeString").getValue().toString();
+<<<<<<< Updated upstream
                         articles.add( new Article(id,author,title,content,timeString));
 //                        System.out.println("Size of article : "+articles.size());
+=======
+                        int jl = Integer.parseInt(ds.child("jumlahLike").getValue().toString()) ;
+                        int jc = Integer.parseInt(ds.child("jumlahComment").getValue().toString());
+                        articles.add( new Article(id,id_author,author,title,content,timeString,jl,jc,null));
+                        System.out.println("Size of article : "+articles.size());
+>>>>>>> Stashed changes
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -132,4 +146,21 @@ public class DoctorHomeFragment extends Fragment {
             }
         });
     }
+    private void getData(){
+
+    }
+    private void getProfilePicture(){
+//        StorageReference storageRef = FirebaseStorage
+//                .getInstance(getResources().getString(R.string.url_storage))
+//                .getReference().child("images");
+    }
+    private interface FirebaseCallback{
+        void onCallbackArticles(ArrayList<Article> a);
+        void onCallbackProfilePicture(String fullname);
+    }
+
+
+
+
+
 }

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ProjectMdpAI"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".readArticle"
+            android:exported="true" />
+        <activity
             android:name=".AddQuestionForum"
             android:exported="true" />
         <activity
@@ -26,7 +29,7 @@
             android:exported="true" />
         <activity
             android:name=".AdminHome"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".DoctorProfile"
             android:exported="true" />
