@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bryant.projectmdpai.Adapter.articleAdapter;
 import com.bryant.projectmdpai.Class.Article;
-import com.bryant.projectmdpai.Class.ExpertSystem.Rules;
-import com.bryant.projectmdpai.Class.User;
+import com.bryant.projectmdpai.Class.comment;
+import com.bryant.projectmdpai.Class.like;
+import com.bryant.projectmdpai.Class.photo;
 import com.bryant.projectmdpai.R;
-import com.bryant.projectmdpai.UserFragment.UserHomeFragment;
 import com.bryant.projectmdpai.databinding.FragmentDoctorHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +34,8 @@ public class DoctorHomeFragment extends Fragment {
     private Fragment fragment;
 
     ArrayList<Article> articles = new ArrayList<>();
+    ArrayList<like> likes = new ArrayList<>();
+    ArrayList<photo> photos = new ArrayList<>();
     articleAdapter aa;
 
     public DoctorHomeFragment() {
@@ -83,7 +84,6 @@ public class DoctorHomeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db));
         DatabaseReference reference = database.getReference("articles");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
