@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/drawable/ic_baseline_thumb_up_24.xml" value="0.2703125" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_doctor_home.xml" value="0.2" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_doctor_profile.xml" value="0.17889492753623187" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_profile.xml" value="0.4" />
+        <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_read_article.xml" value="0.264" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_register.xml" value="0.4" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/activity_user_home.xml" value="0.264" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/fragment_doctor_consult.xml" value="0.17889492753623187" />
@@ -16,8 +18,10 @@
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/fragment_user_expert.xml" value="0.17889492753623187" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/fragment_user_forum.xml" value="0.17889492753623187" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/fragment_user_home.xml" value="0.264" />
+        <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/item_article.xml" value="0.264" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/item_card_article.xml" value="0.4" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/item_card_question.xml" value="0.17889492753623187" />
+        <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/item_comment.xml" value="0.4" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/layout/recycler_view_users_admin.xml" value="0.17889492753623187" />
         <entry key="..\:/Documents/Semester_5/MobileDeviceProgramming/projectMdpAI/app/src/main/res/menu/user_bottnav.xml" value="0.25416666666666665" />
         <entry key="..\:/Github/projectMdpAI/app/src/main/res/drawable-v24/background.xml" value="0.2203125" />
