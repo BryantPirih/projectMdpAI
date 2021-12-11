@@ -79,6 +79,7 @@ public class profile extends AppCompatActivity {
             binding.btnBackToUsProfile.setOnClickListener(view12 -> {
                 toggle = false;
                 toggleVisibility(toggle);
+                binding.pgBarUserProfile.setVisibility(View.INVISIBLE);
             });
         });
 
@@ -173,6 +174,7 @@ public class profile extends AppCompatActivity {
 
                         toggle = false;
                         toggleVisibility(toggle);
+                        binding.pgBarUserProfile.setVisibility(View.INVISIBLE);
                     }
                 });
             }

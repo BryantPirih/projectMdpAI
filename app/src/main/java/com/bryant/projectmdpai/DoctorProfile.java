@@ -83,6 +83,7 @@ public class DoctorProfile extends AppCompatActivity {
             binding.btnBackToDocProfile.setOnClickListener(view1 -> {
                 toggle = false;
                 toggleVisibility(toggle);
+                binding.progressBarProfileImage.setVisibility(View.INVISIBLE);
             });
         });
 
@@ -187,6 +188,7 @@ public class DoctorProfile extends AppCompatActivity {
 
                         toggle = false;
                         toggleVisibility(toggle);
+                        binding.progressBarProfileImage.setVisibility(View.INVISIBLE);
                     }
                 });
             }
