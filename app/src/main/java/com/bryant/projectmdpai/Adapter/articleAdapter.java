@@ -54,6 +54,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
     @Override
     public void onBindViewHolder(@NonNull articleAdapter.holder holder, int position) {
         Article a = articles.get(position);
+        User l = listUser.get(position);
         holder.bind(a);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,7 +40,7 @@ public class UserHome extends AppCompatActivity {
                 Fragment fragment;
                 if (item.getItemId() == R.id.itm_user_article){
                     menu = "Articles";
-                    fragment = UserHomeFragment.newInstance(menu);
+                    fragment = UserHomeFragment.newInstance(menu,uid);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
                     return true;
                 }else if (item.getItemId() == R.id.itm_user_forum){

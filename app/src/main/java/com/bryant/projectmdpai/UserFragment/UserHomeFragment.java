@@ -32,8 +32,10 @@ import java.util.ArrayList;
 public class UserHomeFragment extends Fragment {
 
     private static final String ARG_PARAM_MENU = "param-menu";
+    private static final String ARG_PARAM_UID = "param-uid";
     private FragmentUserHomeBinding binding;
     private String menu;
+    private String uid;
 
     ArrayList<Article> articles = new ArrayList<>();
     ArrayList<User> listUser = new ArrayList<>();
@@ -43,10 +45,11 @@ public class UserHomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static UserHomeFragment newInstance(String paramMenu) {
+    public static UserHomeFragment newInstance(String paramMenu,String paramUid) {
         UserHomeFragment fragment = new UserHomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM_MENU, paramMenu);
+        args.putString(ARG_PARAM_UID, paramUid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +59,7 @@ public class UserHomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             menu = getArguments().getString(ARG_PARAM_MENU);
+            uid = getArguments().getString(ARG_PARAM_UID);
         }
     }
 
@@ -80,12 +84,13 @@ public class UserHomeFragment extends Fragment {
     }
     private void setUpRecyclerView(){
         binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-        aa = new articleAdapter(articles,listUser);
+        aa = new articleAdapter(articles/*,listUser*/);
         aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Article article) {
                 Intent i = new Intent(getContext(), readArticle.class);
                 i.putExtra("pass",article);
+                i.putExtra("uid",uid);
                 System.out.println(article.getContent());
                 startActivity(i);
             }
@@ -129,7 +134,7 @@ public class UserHomeFragment extends Fragment {
                                 listUser.add(u);
                             }
                             binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-                            aa = new articleAdapter(articles,listUser);
+                            aa = new articleAdapter(articles/*,listUser*/);
                             binding.rvDataUserHome.setAdapter(aa);
                         }
 

@@ -123,7 +123,7 @@ public class DoctorHomeFragment extends Fragment {
                                 listUser.add(u);
                             }
                             binding.rvDataDocArticle.setLayoutManager(new LinearLayoutManager(getContext()));
-                            aa = new articleAdapter(articles,listUser);
+                            aa = new articleAdapter(articles/*,listUser*/);
                             binding.rvDataDocArticle.setAdapter(aa);
                         }
                         @Override
