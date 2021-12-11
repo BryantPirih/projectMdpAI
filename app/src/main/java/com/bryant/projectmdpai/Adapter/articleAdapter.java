@@ -1,12 +1,9 @@
 package com.bryant.projectmdpai.Adapter;
 
-<<<<<<< Updated upstream
 import android.content.Context;
 import android.net.Uri;
-=======
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
->>>>>>> Stashed changes
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +74,6 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
 
         public holder(@NonNull ItemCardArticleBinding itemCardArticleBinding) {
             super(itemCardArticleBinding.getRoot());
-
             this.binding = itemCardArticleBinding;
         }
 
@@ -85,7 +81,6 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
             binding.txtCardArticleTitle.setText(article.getTitle());
             binding.txtCardArticleDatetime.setText(article.getTimeString());
             binding.txtCardArticleAuthor.setText(article.getAuthor());
-<<<<<<< Updated upstream
             for(User u : listUser){
                 if(u.getUsername().equals(article.getAuthor())){
                     try{
@@ -115,13 +110,11 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
                     }
                 }
             }
-=======
             binding.txtJumlahLike.setText(article.getJumlahLike()+"");
             binding.txtJumlahComment.setText(article.getJumlahComment()+"");
 //            BitmapFactory.Options o = new BitmapFactory.Options();
 //            Bitmap b = BitmapFactory.decodeByteArray(article.getImage(),0,article.getImage().length,o);
 //            binding.imgArticleProfileAuthor.setImageBitmap(b);
->>>>>>> Stashed changes
         }
     }
 

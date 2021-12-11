@@ -103,15 +103,10 @@ public class DoctorHomeFragment extends Fragment {
                         String id = ds.child("id").getValue().toString();
                         String id_author = ds.child("id_author").getValue().toString();
                         String timeString = ds.child("timeString").getValue().toString();
-<<<<<<< Updated upstream
-                        articles.add( new Article(id,author,title,content,timeString));
-//                        System.out.println("Size of article : "+articles.size());
-=======
                         int jl = Integer.parseInt(ds.child("jumlahLike").getValue().toString()) ;
                         int jc = Integer.parseInt(ds.child("jumlahComment").getValue().toString());
                         articles.add( new Article(id,id_author,author,title,content,timeString,jl,jc,null));
                         System.out.println("Size of article : "+articles.size());
->>>>>>> Stashed changes
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }

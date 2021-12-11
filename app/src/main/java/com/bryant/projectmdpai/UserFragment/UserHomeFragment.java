@@ -80,7 +80,7 @@ public class UserHomeFragment extends Fragment {
     }
     private void setUpRecyclerView(){
         binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-        aa = new articleAdapter(articles);
+        aa = new articleAdapter(articles,listUser);
         aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Article article) {
@@ -117,7 +117,6 @@ public class UserHomeFragment extends Fragment {
                         System.out.println(e.getMessage());
                     }
                 }
-<<<<<<< Updated upstream
                 try {
                     FirebaseDatabase database = FirebaseDatabase
                             .getInstance(getActivity().getResources().getString(R.string.url_db));
@@ -142,8 +141,6 @@ public class UserHomeFragment extends Fragment {
                 }catch (Exception e){
                     System.out.println(e.getMessage());
                 }
-=======
->>>>>>> Stashed changes
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
