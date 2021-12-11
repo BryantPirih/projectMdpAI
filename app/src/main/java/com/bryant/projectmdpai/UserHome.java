@@ -45,7 +45,7 @@ public class UserHome extends AppCompatActivity {
                     return true;
                 }else if (item.getItemId() == R.id.itm_user_forum){
                     menu = "Forum";
-                    fragment = UserForumFragment.newInstance(menu);
+                    fragment = UserForumFragment.newInstance(menu, uid);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutUser, fragment).commit();
                     return true;
                 }else if (item.getItemId() == R.id.itm_user_ask){

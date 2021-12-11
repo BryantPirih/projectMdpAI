@@ -9,25 +9,33 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Question implements Parcelable {
-    private int id;
-    private int author;
+    private String id;
+    private String author;
+    private String title;
     private String question;
-    private boolean isActive;
-    private Date time;
+    private int status;
+    private String time;
 
-    public Question(int id, int author, String question) {
+    public Question(){
+
+    }
+    public Question(String id, String author,String title, String question, String time) {
         this.id = id;
         this.author = author;
+        this.title = title;
         this.question = question;
-        isActive=true;
-        time=Calendar.getInstance().getTime();
+        this.status = 1;
+        this.time = time;
+
     }
 
     protected Question(Parcel in) {
-        id = in.readInt();
-        author = in.readInt();
+        id = in.readString();
+        author = in.readString();
+        title = in.readString();
         question = in.readString();
-        isActive = in.readByte() != 0;
+        status = in.readInt();
+        time = in.readString();
     }
 
     public static final Creator<Question> CREATOR = new Creator<Question>() {
@@ -42,19 +50,19 @@ public class Question implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(int author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -62,30 +70,35 @@ public class Question implements Parcelable {
         return question;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setQuestion(String question) {
         this.question = question;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public int getStatus() {
+        return status;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
-    public String getTimeString(){
-        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd, HH:mm");
-        return formatter.format(time);
-    }
+
 
     @Override
     public int describeContents() {
@@ -94,9 +107,11 @@ public class Question implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeInt(author);
+        parcel.writeString(id);
+        parcel.writeString(author);
+        parcel.writeString(title);
         parcel.writeString(question);
-        parcel.writeByte((byte) (isActive ? 1 : 0));
+        parcel.writeInt(status);
+        parcel.writeString(time);
     }
 }

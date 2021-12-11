@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ProjectMdpAI"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AddQuestionForum"
+            android:exported="true" />
+        <activity
             android:name=".AdminVerification"
             android:exported="true" />
         <activity
