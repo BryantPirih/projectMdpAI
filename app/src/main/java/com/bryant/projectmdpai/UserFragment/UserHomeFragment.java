@@ -84,7 +84,7 @@ public class UserHomeFragment extends Fragment {
     }
     private void setUpRecyclerView(){
         binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-        aa = new articleAdapter(articles/*,listUser*/);
+        aa = new articleAdapter(articles,listUser);
         aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Article article) {
@@ -134,7 +134,7 @@ public class UserHomeFragment extends Fragment {
                                 listUser.add(u);
                             }
                             binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
-                            aa = new articleAdapter(articles/*,listUser*/);
+                            aa = new articleAdapter(articles,listUser);
                             binding.rvDataUserHome.setAdapter(aa);
                         }
 
