@@ -20,6 +20,7 @@ import com.bryant.projectmdpai.Class.Article;
 import com.bryant.projectmdpai.Class.Question;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
+import com.bryant.projectmdpai.UserQuestionDetail;
 import com.bryant.projectmdpai.databinding.FragmentUserForumBinding;
 import com.bryant.projectmdpai.databinding.FragmentUserHomeBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -107,13 +108,19 @@ public class UserForumFragment extends Fragment {
 
                             binding.rvDataUserForum.setLayoutManager(new LinearLayoutManager(getContext()));
                             qa = new QuestionForumAdapter(listQuestion, listUser);
+                            binding.rvDataUserForum.setAdapter(qa);
                             qa.setOnItemClickCallback(new QuestionForumAdapter.OnItemClickCallback() {
                                 @Override
                                 public void onItemClicked(Question question) {
                                     System.out.println(question.getId());
+                                    Intent i = new Intent(getContext(), UserQuestionDetail.class);
+                                    i.putExtra("question",question);
+                                    i.putExtra("uid",uid);
+                                    startActivity(i);
+                                    getActivity().finish();
                                 }
                             });
-                            binding.rvDataUserForum.setAdapter(qa);
+
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -134,7 +141,6 @@ public class UserForumFragment extends Fragment {
         binding.btnAddQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent toForum = new Intent(getContext(), AddQuestionForum.class);
                 toForum.putExtra("uid",uid);
                 startActivity(toForum);
