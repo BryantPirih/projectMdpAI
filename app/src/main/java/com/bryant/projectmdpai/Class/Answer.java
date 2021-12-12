@@ -77,10 +77,6 @@ public class Answer implements Parcelable {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-    public String getTimeString(){
-        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd, HH:mm");
-        return formatter.format(time);
-    }
 
     public String getTime() {
         return time;

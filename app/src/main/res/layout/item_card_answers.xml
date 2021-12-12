@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/txt_answer_profile"
+        app:layout_constraintStart_toEndOf="@+id/img_answer_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="#97000000"
-        app:layout_constraintStart_toEndOf="@+id/txt_answer_profile"
+        app:layout_constraintStart_toEndOf="@+id/img_answer_profile"
         app:layout_constraintTop_toBottomOf="@+id/txt_answer_author" />
 
     <TextView
@@ -38,10 +38,10 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_answer_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/img_answer_profile" />
 
     <ImageView
-        android:id="@+id/txt_answer_profile"
+        android:id="@+id/img_answer_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
