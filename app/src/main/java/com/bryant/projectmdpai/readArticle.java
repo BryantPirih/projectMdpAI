@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -53,12 +54,22 @@ public class readArticle extends AppCompatActivity {
     int commented;
 
     private ActivityReadArticleBinding binding;
+    private ObjectAnimator bgcenter;
+    private ObjectAnimator layer1;
+    private ObjectAnimator layer2;
+    private ObjectAnimator layer3;
+    private ObjectAnimator mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityReadArticleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bgcenter.ofFloat(binding.bgCenter, "translationY", -50f).setDuration(1500).start();
+        layer1.ofFloat(binding.bglayer1, "translationY", 80f).setDuration(1500).start();
+        layer2.ofFloat(binding.bglayer2, "translationY", 50f).setDuration(1500).start();
+        layer3.ofFloat(binding.bglayer3, "translationY", 50f).setDuration(1500).start();
 
         Intent intent = getIntent();
         if (intent.hasExtra("pass")){

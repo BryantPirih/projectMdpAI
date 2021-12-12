@@ -4,14 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:padding="10dp"
     tools:context=".readArticle">
+
+    <ImageView
+        android:id="@+id/bgCenter"
+        android:layout_width="0dp"
+        android:layout_height="395dp"
+        android:layout_marginBottom="-100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/background_layer1" />
+
+    <ImageView
+        android:id="@+id/bglayer1"
+        android:layout_width="292dp"
+        android:layout_height="522dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background_tooth" />
+
+    <ImageView
+        android:id="@+id/bglayer2"
+        android:layout_width="0dp"
+        android:layout_height="326dp"
+        android:layout_marginBottom="-70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/background_layer2" />
+
+    <ImageView
+        android:id="@+id/bglayer3"
+        android:layout_width="477dp"
+        android:layout_height="205dp"
+        android:layout_marginBottom="-60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/background_layer3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArticleRead"
         android:layout_width="0dp"
-        android:layout_height="440dp"
+        android:layout_height="380dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
         android:onClick="btnComment_Clicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvArticleRead"
@@ -47,6 +91,7 @@
         android:id="@+id/btnLike"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:onClick="btnLike_Clicked"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +102,9 @@
         android:id="@+id/rvCommentRead"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"
@@ -68,7 +116,8 @@
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="Comments:"
         android:textSize="20sp"
         android:textStyle="bold"
