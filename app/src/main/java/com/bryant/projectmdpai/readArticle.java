@@ -42,6 +42,7 @@ public class readArticle extends AppCompatActivity {
     ArrayList<Article> articles = new ArrayList<>();
     ArrayList<like> likes = new ArrayList<>();
     ArrayList<comment> comments = new ArrayList<>();
+    Article art;
     readAdapter ra;
     commentAdapter ca;
 
@@ -74,6 +75,8 @@ public class readArticle extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("pass")){
             articles.add(intent.getParcelableExtra("pass"));
+            art = intent.getParcelableExtra("pass");
+            binding.txtArticleTitle.setText(art.getTitle().toUpperCase());
             keyArticle = articles.get(0).getId();
         }
         if (intent.hasExtra("uid")){
