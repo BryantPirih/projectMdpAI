@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         android:entries="@array/listKota"
         app:layout_constraintEnd_toStartOf="@+id/spPracticeTime"
         app:layout_constraintStart_toEndOf="@+id/textView38"
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:entries="@array/listPractice"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spKota"
         app:layout_constraintTop_toBottomOf="@+id/search_ask_doctor" />
@@ -50,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:text="Filter"
+        android:visibility="invisible"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
