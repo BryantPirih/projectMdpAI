@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bryant.projectmdpai.Adapter.QuestionForumAdapter;
 import com.bryant.projectmdpai.Adapter.articleAdapter;
+import com.bryant.projectmdpai.Adapter.articleAdapter1;
 import com.bryant.projectmdpai.Class.Article;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
@@ -40,6 +41,7 @@ public class UserHomeFragment extends Fragment {
     ArrayList<Article> articles = new ArrayList<>();
     ArrayList<User> listUser = new ArrayList<>();
     articleAdapter aa;
+    articleAdapter1 aa1;
 
     public UserHomeFragment() {
         // Required empty public constructor
@@ -88,6 +90,7 @@ public class UserHomeFragment extends Fragment {
         aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Article article) {
+                System.out.println(article.getContent());
                 Intent i = new Intent(getContext(), readArticle.class);
                 i.putExtra("pass",article);
                 i.putExtra("uid",uid);
@@ -136,6 +139,17 @@ public class UserHomeFragment extends Fragment {
                             binding.rvDataUserHome.setLayoutManager(new LinearLayoutManager(getContext()));
                             aa = new articleAdapter(articles,listUser);
                             binding.rvDataUserHome.setAdapter(aa);
+                            aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
+                                @Override
+                                public void onItemClicked(Article article) {
+                                    System.out.println(article.getContent());
+                                    Intent i = new Intent(getContext(), readArticle.class);
+                                    i.putExtra("pass",article);
+                                    i.putExtra("uid",uid);
+                                    System.out.println(article.getContent());
+                                    startActivity(i);
+                                }
+                            });
                         }
 
                         @Override
