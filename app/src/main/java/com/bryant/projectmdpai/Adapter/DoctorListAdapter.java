@@ -27,10 +27,12 @@ import java.util.ArrayList;
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.holder> {
 
     ArrayList<User> listUser;
+    ArrayList<User> listUserSorted = new ArrayList<>();
     Context context;
 
     public DoctorListAdapter(ArrayList<User> listUser) {
         this.listUser = listUser;
+        this.listUserSorted.addAll(listUser);
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ho
 
     @Override
     public void onBindViewHolder(@NonNull holder holder, int position) {
-        User users = listUser.get(position);
+        User users = listUserSorted.get(position);
         holder.bind(users);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +59,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ho
 
     @Override
     public int getItemCount() {
-        return listUser.size();
+        return listUserSorted.size();
     }
 
     public class holder extends RecyclerView.ViewHolder {
@@ -93,5 +95,21 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ho
                 });
             }
         }
+    }
+
+    public void showAll() {
+        listUserSorted.clear();
+        listUserSorted.addAll(listUser);
+        this.notifyDataSetChanged();
+    }
+
+    public void search(String keyword){
+        listUserSorted.clear();
+        for (User user: listUser) {
+            if (user.getFull_name().toLowerCase().contains(keyword.toLowerCase())){
+                listUserSorted.add(user);
+            }
+        }
+        this.notifyDataSetChanged();
     }
 }
