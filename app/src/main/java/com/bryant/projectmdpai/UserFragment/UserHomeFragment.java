@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.bryant.projectmdpai.Adapter.QuestionForumAdapter;
 import com.bryant.projectmdpai.Adapter.articleAdapter;
-import com.bryant.projectmdpai.Adapter.articleAdapter1;
 import com.bryant.projectmdpai.Class.Article;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.R;
@@ -27,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserHomeFragment extends Fragment {
@@ -41,7 +37,6 @@ public class UserHomeFragment extends Fragment {
     ArrayList<Article> articles = new ArrayList<>();
     ArrayList<User> listUser = new ArrayList<>();
     articleAdapter aa;
-    articleAdapter1 aa1;
 
     public UserHomeFragment() {
         // Required empty public constructor

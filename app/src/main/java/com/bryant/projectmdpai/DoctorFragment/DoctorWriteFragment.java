@@ -219,6 +219,7 @@ public class DoctorWriteFragment extends Fragment {
         });
     }
     private void postArticle(String author,String title, String content){
+
         binding.progressBarArticle.setVisibility(View.VISIBLE);
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))

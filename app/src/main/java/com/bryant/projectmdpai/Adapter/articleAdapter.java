@@ -76,7 +76,6 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
             super(itemCardArticleBinding.getRoot());
             this.binding = itemCardArticleBinding;
         }
-
         void bind(Article article){
             binding.txtCardArticleTitle.setText(article.getTitle());
             binding.txtCardArticleDatetime.setText(article.getTimeString());
