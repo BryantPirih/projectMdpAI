@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.bryant.projectmdpai.Adapter.AnswerAdapter;
 import com.bryant.projectmdpai.Class.Answer;
 import com.bryant.projectmdpai.Class.Question;
 import com.bryant.projectmdpai.Class.User;
+import com.bryant.projectmdpai.databinding.ActivityAdminVerificationBinding;
+import com.bryant.projectmdpai.databinding.ActivityDoctorQuestionDetailBinding;
+import com.bryant.projectmdpai.databinding.ActivityUserQuestionDetailBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DoctorQuestionDetail extends AppCompatActivity {
+
     Intent secondIntent;
     ArrayList<Answer> answers = new ArrayList<>();
     ArrayList<User> listUser = new ArrayList<>();
@@ -41,11 +46,25 @@ public class DoctorQuestionDetail extends AppCompatActivity {
     RecyclerView rv;
     AnswerAdapter adapter;
     User userNow;
+    private ActivityDoctorQuestionDetailBinding binding;
+    private ObjectAnimator bgcenter;
+    private ObjectAnimator layer1;
+    private ObjectAnimator layer2;
+    private ObjectAnimator layer3;
+    private ObjectAnimator mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_question_detail);
+        binding = ActivityDoctorQuestionDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        bgcenter.ofFloat(binding.bgCenter, "translationY", -50f).setDuration(1500).start();
+        layer1.ofFloat(binding.bglayer1, "translationY", 80f).setDuration(1500).start();
+        layer2.ofFloat(binding.bglayer2, "translationY", 50f).setDuration(1500).start();
+        layer3.ofFloat(binding.bglayer3, "translationY", 50f).setDuration(1500).start();
+
         secondIntent = getIntent();
         if(secondIntent.hasExtra("question")){
             question = secondIntent.getParcelableExtra("question");
