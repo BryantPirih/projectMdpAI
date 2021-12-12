@@ -28,6 +28,7 @@
         android:ems="10"
         android:hint="Comment........"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/btnComment"
         app:layout_constraintStart_toEndOf="@+id/btnLike"
         app:layout_constraintTop_toBottomOf="@+id/rvArticleRead" />
@@ -35,7 +36,7 @@
     <ImageButton
         android:id="@+id/btnComment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:onClick="btnComment_Clicked"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,7 @@
     <ImageButton
         android:id="@+id/btnLike"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:onClick="btnLike_Clicked"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +61,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtComment"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/textView47"
         tools:listitem="@layout/item_comment" />
+
+    <TextView
+        android:id="@+id/textView47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Comments:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtComment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

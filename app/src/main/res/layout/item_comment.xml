@@ -5,19 +5,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView46"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="comments:"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/edtUsernameC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -25,7 +18,10 @@
         android:id="@+id/edtCommentC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_weight="0"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="16sp" />
+
 </LinearLayout>
