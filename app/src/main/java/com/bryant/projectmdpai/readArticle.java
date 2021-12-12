@@ -45,6 +45,7 @@ public class readArticle extends AppCompatActivity {
     commentAdapter ca;
 
     private String uid;
+    private String role;
     private String keyArticle;
     private String tempUsername;
     boolean sudah=false;
@@ -70,18 +71,19 @@ public class readArticle extends AppCompatActivity {
 
         getData(new FirebaseCallback() {
             @Override
-            public void onCallbackUsername(String username) {
-                tempUsername =username;
+            public void onCallbackUsernameRole(String username, String r) {
+                tempUsername=username;
+                role=r;
             }
 
             @Override
             public void onCallbackLike(ArrayList<like> l) {
-                likes = l;
+                likes=l;
             }
 
             @Override
             public void onCallbackComment(ArrayList<comment> c) {
-                comments = c;
+                comments=c;
             }
         });
 
@@ -108,40 +110,66 @@ public class readArticle extends AppCompatActivity {
         }
     }
     public void btnLike_Clicked(View view) {
-        if (!sudah){
-            likeArticle();
-        }
-        else{
-            unLikeArticle();
+        if (TextUtils.equals(role,"Dokter")){
+            Toast.makeText(this, "dokter tidak bisa ngelike", Toast.LENGTH_SHORT).show();
+        }else{
+            if (!sudah){
+                likeArticle();
+            }
+            else{
+                unLikeArticle();
+            }
         }
         getData(new FirebaseCallback() {
             @Override
-            public void onCallbackUsername(String username) {
-                tempUsername = username;
+            public void onCallbackUsernameRole(String username, String r) {
+                tempUsername=username;
+                role=r;
             }
 
             @Override
             public void onCallbackLike(ArrayList<like> l) {
-                likes = l;
+                likes=l;
             }
 
             @Override
             public void onCallbackComment(ArrayList<comment> c) {
-                comments = c;
+                comments=c;
             }
         });
         checkLike();
     }
     public void btnComment_Clicked(View view) {
-        if(TextUtils.isEmpty(binding.edtComment.getText().toString())){
-            binding.edtComment.setError("silahkan meinggalkan comment terlebih dahulu");
-            binding.edtComment.requestFocus();
-            return;
+        if (TextUtils.equals(role,"Dokter")){
+            Toast.makeText(this, "dokter tidak bisa comment", Toast.LENGTH_SHORT).show();
         }
-        commentArticle(tempUsername);
+        else{
+            if(TextUtils.isEmpty(binding.edtComment.getText().toString())){
+                binding.edtComment.setError("silahkan meinggalkan comment terlebih dahulu");
+                binding.edtComment.requestFocus();
+                return;
+            }
+            commentArticle(tempUsername);
+        }
+//        getData(new FirebaseCallback() {
+//            @Override
+//            public void onCallbackUsernameRole(String username, String r) {
+//                tempUsername=username;
+//                role=r;
+//            }
+//
+//            @Override
+//            public void onCallbackLike(ArrayList<like> l) {
+//                likes=l;
+//            }
+//
+//            @Override
+//            public void onCallbackComment(ArrayList<comment> c) {
+//                comments=c;
+//            }
+//        });
         binding.edtComment.setText("");
         ca.notifyDataSetChanged();
-
     }
     private void commentArticle(String u){
         DatabaseReference reference = FirebaseDatabase
@@ -249,7 +277,7 @@ public class readArticle extends AppCompatActivity {
 
     }
     private interface FirebaseCallback{
-        void onCallbackUsername(String username);
+        void onCallbackUsernameRole(String username,String r);
         void onCallbackLike(ArrayList<like> l);
         void onCallbackComment(ArrayList<comment> c);
     }
@@ -290,7 +318,8 @@ public class readArticle extends AppCompatActivity {
                     if (snapshot.hasChild(uid)){
                         DataSnapshot userSnapshot = snapshot.child(uid);
                         tempUsername = userSnapshot.child("username").getValue().toString();
-                        f.onCallbackUsername(tempUsername);
+                        role = userSnapshot.child("role").getValue().toString();
+                        f.onCallbackUsernameRole(tempUsername,role);
                     }
                 }catch (Exception ex){
                     System.out.println(ex.getMessage());
@@ -301,7 +330,7 @@ public class readArticle extends AppCompatActivity {
                 System.out.println(error);
             }
         });
-
+        comments = new ArrayList<>();
         database = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db));
         reference = database.getReference("comment");
@@ -341,7 +370,13 @@ public class readArticle extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.btnBackToHome){
-            Intent i = new Intent(readArticle.this,UserHome.class);
+            Intent i = new Intent();
+            if (TextUtils.equals(role,"Dokter")){
+                i = new Intent(readArticle.this,DoctorHome.class);
+            }
+            else{
+                i = new Intent(readArticle.this,UserHome.class);
+            }
             i.putExtra("uid",uid);
             startActivity(i);
             finish();

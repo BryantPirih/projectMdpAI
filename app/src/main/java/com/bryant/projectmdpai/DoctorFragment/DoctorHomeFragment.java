@@ -1,6 +1,7 @@
 package com.bryant.projectmdpai.DoctorFragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import com.bryant.projectmdpai.Class.like;
 import com.bryant.projectmdpai.Class.photo;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentDoctorHomeBinding;
+import com.bryant.projectmdpai.readArticle;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,8 +45,6 @@ public class DoctorHomeFragment extends Fragment {
 
     ArrayList<Article> articles = new ArrayList<>();
     ArrayList<User> listUser = new ArrayList<>();
-    ArrayList<like> likes = new ArrayList<>();
-    ArrayList<photo> photos = new ArrayList<>();
     articleAdapter aa;
 
     public DoctorHomeFragment() {
@@ -124,6 +124,17 @@ public class DoctorHomeFragment extends Fragment {
                             }
                             binding.rvDataDocArticle.setLayoutManager(new LinearLayoutManager(getContext()));
                             aa = new articleAdapter(articles,listUser);
+                            aa.setOnItemClickCallback(new articleAdapter.OnItemClickCallback() {
+                                @Override
+                                public void onItemClicked(Article article) {
+                                    System.out.println(article.getContent());
+                                    Intent i = new Intent(getContext(), readArticle.class);
+                                    i.putExtra("pass",article);
+                                    i.putExtra("uid",uid);
+                                    System.out.println(article.getContent());
+                                    startActivity(i);
+                                }
+                            });
                             binding.rvDataDocArticle.setAdapter(aa);
                         }
                         @Override
