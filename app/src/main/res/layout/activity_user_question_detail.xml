@@ -22,11 +22,12 @@
         android:id="@+id/txt_question_detail_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="39dp"
         android:layout_marginEnd="8dp"
         android:maxLines="4"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,6 +42,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/btnBackUserHome2"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +59,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_doctor_answers"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
