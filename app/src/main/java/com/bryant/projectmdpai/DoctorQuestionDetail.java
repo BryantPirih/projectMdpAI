@@ -99,12 +99,12 @@ public class DoctorQuestionDetail extends AppCompatActivity {
         if(edtAnswer.getText().toString().equals("")){
             Toast.makeText(DoctorQuestionDetail.this,
                     "Answer is still empty!",
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT).show();
         }
         else if(userNow.getStatus()==0){
             Toast.makeText(DoctorQuestionDetail.this,
                     "Akun dokter belum terverifikasi",
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT).show();
         }
         else{
             DatabaseReference reference = FirebaseDatabase
