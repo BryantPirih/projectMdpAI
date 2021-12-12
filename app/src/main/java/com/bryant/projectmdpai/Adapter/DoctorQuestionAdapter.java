@@ -27,10 +27,14 @@ public class DoctorQuestionAdapter extends RecyclerView.Adapter<DoctorQuestionAd
     ArrayList<Question> listQuestion;
     ArrayList<User> listUser;
     Context context;
+    private QuestionForumAdapter.OnItemClickCallback onItemClickCallback;
 
     public DoctorQuestionAdapter(ArrayList<Question> listQuestion, ArrayList<User> listUser) {
         this.listQuestion = listQuestion;
         this.listUser = listUser;
+    }
+    public void setOnItemClickCallback(QuestionForumAdapter.OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -78,6 +82,12 @@ public class DoctorQuestionAdapter extends RecyclerView.Adapter<DoctorQuestionAd
                 break;
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickCallback.onItemClicked(listQuestion.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -95,5 +105,8 @@ public class DoctorQuestionAdapter extends RecyclerView.Adapter<DoctorQuestionAd
             txtDate = itemView.findViewById(R.id.txtCardQuestionDateTime);
             txtUserFullName = itemView.findViewById(R.id.txtCardQuestionAuthor);
         }
+    }
+    public interface OnItemClickCallback{
+        void onItemClicked(Question question);
     }
 }

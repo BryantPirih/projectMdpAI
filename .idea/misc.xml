@@ -55,10 +55,11 @@
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_admin_home.xml" value="0.20364583333333333" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_admin_verification.xml" value="0.33" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_doctor_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_doctor_question_detail.xml" value="0.25" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_profile.xml" value="0.20364583333333333" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_user_home.xml" value="0.18" />
-        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_user_question_detail.xml" value="0.33" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/activity_user_question_detail.xml" value="0.18926553672316385" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_admin_request.xml" value="0.1762917933130699" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_admin_users.xml" value="0.20625" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_doctor_consult.xml" value="0.2957427536231884" />
@@ -67,6 +68,7 @@
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_expert.xml" value="0.2957427536231884" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_forum.xml" value="0.25" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/fragment_user_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/item_card_answers.xml" value="0.33" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/item_card_article.xml" value="0.22" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/item_card_question.xml" value="0.30019120458891013" />
         <entry key="..\:/Kuliah/Sem5/MDP/Proyek/projectMdpAI/app/src/main/res/layout/recycler_view_users_admin.xml" value="0.67" />

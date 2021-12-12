@@ -8,7 +8,7 @@
     tools:context=".UserFragment.UserForumFragment">
 
     <SearchView
-        android:id="@+id/searchbar_user_forum"
+        android:id="@+id/searchbar_doctor_forum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDataUserForum"
+        android:id="@+id/rvQuestionForum"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchbar_user_forum" />
+        app:layout_constraintTop_toBottomOf="@+id/searchbar_doctor_forum" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddQ"

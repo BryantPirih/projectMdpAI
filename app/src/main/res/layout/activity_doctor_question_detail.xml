@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserQuestionDetail">
+    tools:context=".DoctorQuestionDetail">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnBackUserHome2"
+        android:id="@+id/btnBackUserHome3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,60 +19,84 @@
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <TextView
-        android:id="@+id/txt_question_detail_question"
+        android:id="@+id/txt_question_detail_question2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
         android:maxLines="4"
         android:text="TextView"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackUserHome2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBackUserHome3"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
-        android:id="@+id/txt_question_detail_title"
+        android:id="@+id/txt_question_detail_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/btnBackUserHome2"
+        app:layout_constraintStart_toEndOf="@+id/btnBackUserHome3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_question_detail_author"
+        android:id="@+id/txt_question_detail_author2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/btnBackUserHome2"
-        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_title" />
+        app:layout_constraintStart_toEndOf="@+id/btnBackUserHome3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_title2" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_doctor_answers"
-        android:layout_width="409dp"
+        android:id="@+id/rv_doctor_answers2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_question" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPostAnswer" />
 
     <TextView
-        android:id="@+id/txt_question_detail_date"
+        android:id="@+id/txt_question_detail_date2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/txt_question_detail_author"
-        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_title" />
+        app:layout_constraintStart_toEndOf="@+id/txt_question_detail_author2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_title2" />
+
+    <EditText
+        android:id="@+id/edtAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Answer..."
+        android:inputType="textPersonName"
+        android:maxLines="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_question_detail_question2" />
+
+    <Button
+        android:id="@+id/btnPostAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Post Answer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtAnswer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

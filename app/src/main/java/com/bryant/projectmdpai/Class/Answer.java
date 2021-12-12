@@ -8,25 +8,30 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Answer implements Parcelable {
-    private int id;
-    private int question_id;
-    private int author;
+    private String id;
+    private String question_id;
+    private String author;
     private String answer;
-    private Date time;
+    private String time;
 
-    public Answer(int id, int question_id, int author, String answer) {
+    public Answer(){
+
+    }
+
+    public Answer(String id, String question_id, String author, String answer, String time) {
         this.id = id;
         this.question_id = question_id;
         this.author = author;
         this.answer = answer;
-        time= Calendar.getInstance().getTime();
+        this.time= time;
     }
 
     protected Answer(Parcel in) {
-        id = in.readInt();
-        question_id = in.readInt();
-        author = in.readInt();
+        id = in.readString();
+        question_id = in.readString();
+        author = in.readString();
         answer = in.readString();
+        time = in.readString();
     }
 
     public static final Creator<Answer> CREATOR = new Creator<Answer>() {
@@ -41,27 +46,27 @@ public class Answer implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getQuestion_id() {
+    public String getQuestion_id() {
         return question_id;
     }
 
-    public void setQuestion_id(int question_id) {
+    public void setQuestion_id(String question_id) {
         this.question_id = question_id;
     }
 
-    public int getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(int author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -77,6 +82,14 @@ public class Answer implements Parcelable {
         return formatter.format(time);
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -84,9 +97,10 @@ public class Answer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeInt(question_id);
-        parcel.writeInt(author);
+        parcel.writeString(id);
+        parcel.writeString(question_id);
+        parcel.writeString(author);
         parcel.writeString(answer);
+        parcel.writeString(time);
     }
 }

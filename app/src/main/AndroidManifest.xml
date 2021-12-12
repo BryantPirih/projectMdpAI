@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ProjectMdpAI"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".DoctorQuestionDetail"
+            android:exported="true" />
+        <activity
             android:name=".UserQuestionDetail"
             android:exported="true" />
         <activity

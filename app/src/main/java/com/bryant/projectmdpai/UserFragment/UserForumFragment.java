@@ -106,9 +106,9 @@ public class UserForumFragment extends Fragment {
                                 }
                             }
 
-                            binding.rvDataUserForum.setLayoutManager(new LinearLayoutManager(getContext()));
+                            binding.rvQuestionForum.setLayoutManager(new LinearLayoutManager(getContext()));
                             qa = new QuestionForumAdapter(listQuestion, listUser);
-                            binding.rvDataUserForum.setAdapter(qa);
+                            binding.rvQuestionForum.setAdapter(qa);
                             qa.setOnItemClickCallback(new QuestionForumAdapter.OnItemClickCallback() {
                                 @Override
                                 public void onItemClicked(Question question) {
