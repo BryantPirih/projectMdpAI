@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.bryant.projectmdpai.Adapter.DoctorQuestionAdapter;
 import com.bryant.projectmdpai.Adapter.QuestionForumAdapter;
@@ -19,6 +21,8 @@ import com.bryant.projectmdpai.Class.Question;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.DoctorQuestionDetail;
 import com.bryant.projectmdpai.R;
+import com.bryant.projectmdpai.databinding.FragmentDoctorConsultBinding;
+import com.bryant.projectmdpai.databinding.FragmentDoctorHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +50,7 @@ public class DoctorConsultFragment extends Fragment {
     ArrayList<User> listUser = new ArrayList<>();
     RecyclerView rv;
     DoctorQuestionAdapter dqa;
+    SearchView searchView;
 
     public DoctorConsultFragment() {
         // Required empty public constructor
@@ -85,6 +90,26 @@ public class DoctorConsultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = view.findViewById(R.id.rvQuestionForum2);
+
+        searchView = view.findViewById(R.id.searchbar_doctor_forum2);
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //Toast.makeText(getContext(), "keyword : " + s, Toast.LENGTH_SHORT).show();
+                dqa.search(s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // dipanggil ketika terjadi perubahan text keyword di SearchView
+                if (TextUtils.isEmpty(s)){
+                    dqa.showAll();
+                }
+                return true;
+            }
+        });
 
         FirebaseDatabase database = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db));
