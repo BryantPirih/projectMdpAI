@@ -96,6 +96,7 @@ public class readArticle extends AppCompatActivity {
         ca.notifyDataSetChanged();
 
         checkLike();
+        //Toast.makeText(this, articles.get(0).getId(), Toast.LENGTH_SHORT).show();
     }
     private void checkLike(){
         for (int i = 0; i < likes.size(); i++) {
@@ -137,12 +138,12 @@ public class readArticle extends AppCompatActivity {
             binding.edtComment.requestFocus();
             return;
         }
-        commentArticle();
+        commentArticle(tempUsername);
         binding.edtComment.setText("");
         ca.notifyDataSetChanged();
 
     }
-    private void commentArticle(){
+    private void commentArticle(String u){
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
                 .getReference("comment");
@@ -150,7 +151,7 @@ public class readArticle extends AppCompatActivity {
         DatabaseReference pushedRef = reference.push();
         String key = pushedRef.getKey();
 
-        comment c = new comment(key,keyArticle,tempUsername,binding.edtComment.getText().toString());
+        comment c = new comment(key,keyArticle,u,binding.edtComment.getText().toString());
         reference.child(key).setValue(c).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -309,7 +310,8 @@ public class readArticle extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren() ) {
                     try {
-                        if (snapshot.hasChild(articles.get(0).getId()) ){
+                        String temp = ds.child("id_article").getValue().toString();
+                        if (TextUtils.equals(temp,articles.get(0).getId())){
                             String id_article = ds.child("id_article").getValue().toString();
                             String id_comment = ds.child("id_comment").getValue().toString();
                             String username_user = ds.child("username_user").getValue().toString();
@@ -340,6 +342,7 @@ public class readArticle extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.btnBackToHome){
             Intent i = new Intent(readArticle.this,UserHome.class);
+            i.putExtra("uid",uid);
             startActivity(i);
             finish();
         }
