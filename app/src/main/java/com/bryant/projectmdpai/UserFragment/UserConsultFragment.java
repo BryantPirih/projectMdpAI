@@ -78,7 +78,7 @@ public class UserConsultFragment extends Fragment {
                 binding.searchAskDoctor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String s) {
-                        Toast.makeText(getContext(), "keyword : " + s, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "keyword : " + s, Toast.LENGTH_SHORT).show();
                         adapter.search(s);
                         return true;
                     }

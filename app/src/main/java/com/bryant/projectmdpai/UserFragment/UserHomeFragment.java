@@ -8,9 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.bryant.projectmdpai.Adapter.articleAdapter;
 import com.bryant.projectmdpai.Class.Article;
@@ -70,6 +72,25 @@ public class UserHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.searchView.setIconifiedByDefault(false);
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //Toast.makeText(getContext(), "keyword : " + s, Toast.LENGTH_SHORT).show();
+                aa.search(s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // dipanggil ketika terjadi perubahan text keyword di SearchView
+                if (TextUtils.isEmpty(s)){
+                    aa.showAll();
+                }
+                return true;
+            }
+        });
 
         getData(new FirebaseCallback() {
             @Override

@@ -31,12 +31,14 @@ import java.util.ArrayList;
 
 public class QuestionForumAdapter  extends RecyclerView.Adapter<QuestionForumAdapter.QuestionForumHolder>{
     ArrayList<Question> listQuestion;
+    ArrayList<Question> listQuestionSorted = new ArrayList<>();
     ArrayList<User> listUser;
     Context context;
     private OnItemClickCallback onItemClickCallback;
 
     public QuestionForumAdapter(ArrayList<Question> listQuestion, ArrayList<User> listUser) {
         this.listQuestion = listQuestion;
+        this.listQuestionSorted.addAll(listQuestion);
         this.listUser = listUser;
     }
 
@@ -55,7 +57,7 @@ public class QuestionForumAdapter  extends RecyclerView.Adapter<QuestionForumAda
 
     @Override
     public void onBindViewHolder(@NonNull QuestionForumHolder holder, int position) {
-        Question q = listQuestion.get(position);
+        Question q = listQuestionSorted.get(position);
         holder.txtTitle.setText(q.getTitle());
         holder.txtDate.setText("-"+q.getTime());
 
@@ -92,14 +94,14 @@ public class QuestionForumAdapter  extends RecyclerView.Adapter<QuestionForumAda
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickCallback.onItemClicked(listQuestion.get(holder.getAdapterPosition()));
+                onItemClickCallback.onItemClicked(listQuestionSorted.get(holder.getAdapterPosition()));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return listQuestion.size();
+        return listQuestionSorted.size();
     }
 
     public class QuestionForumHolder extends RecyclerView.ViewHolder {
@@ -115,5 +117,21 @@ public class QuestionForumAdapter  extends RecyclerView.Adapter<QuestionForumAda
     }
     public interface OnItemClickCallback{
         void onItemClicked(Question question);
+    }
+
+    public void showAll() {
+        listQuestionSorted.clear();
+        listQuestionSorted.addAll(listQuestion);
+        this.notifyDataSetChanged();
+    }
+
+    public void search(String keyword){
+        listQuestionSorted.clear();
+        for (Question question: listQuestion) {
+            if (question.getTitle().toLowerCase().contains(keyword.toLowerCase())){
+                listQuestionSorted.add(question);
+            }
+        }
+        this.notifyDataSetChanged();
     }
 }

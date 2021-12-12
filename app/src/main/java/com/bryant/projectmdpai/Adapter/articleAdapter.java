@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bryant.projectmdpai.Class.Article;
+import com.bryant.projectmdpai.Class.Question;
 import com.bryant.projectmdpai.Class.User;
 import com.bryant.projectmdpai.Class.like;
 import com.bryant.projectmdpai.R;
@@ -28,11 +29,13 @@ import java.util.ArrayList;
 public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> {
 
     ArrayList<Article> articles = new ArrayList<>();
+    ArrayList<Article> articlesSorted = new ArrayList<>();
     ArrayList<User> listUser;
     Context context;
 
-    public articleAdapter(ArrayList<Article> articles,ArrayList<User> listUser) {
+    public articleAdapter(ArrayList<Article> articles, ArrayList<User> listUser) {
         this.articles = articles;
+        this.articlesSorted.addAll(articles);
         this.listUser = listUser;
     }
     private OnItemClickCallback onItemClickCallback;
@@ -53,7 +56,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
 
     @Override
     public void onBindViewHolder(@NonNull articleAdapter.holder holder, int position) {
-        Article a = articles.get(position);
+        Article a = articlesSorted.get(position);
         holder.bind(a);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +68,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
 
     @Override
     public int getItemCount() {
-        return articles.size();
+        return articlesSorted.size();
     }
 
     public class holder extends RecyclerView.ViewHolder {
@@ -76,6 +79,7 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
             super(itemCardArticleBinding.getRoot());
             this.binding = itemCardArticleBinding;
         }
+        
         void bind(Article article){
             binding.txtCardArticleTitle.setText(article.getTitle());
             binding.txtCardArticleDatetime.setText(article.getTimeString());
@@ -119,6 +123,22 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.holder> 
 
     public interface OnItemClickCallback{
         void onItemClicked(Article article);
+    }
+
+    public void showAll() {
+        articlesSorted.clear();
+        articlesSorted.addAll(articles);
+        this.notifyDataSetChanged();
+    }
+
+    public void search(String keyword){
+        articlesSorted.clear();
+        for (Article article: articles) {
+            if (article.getTitle().toLowerCase().contains(keyword.toLowerCase())){
+                articlesSorted.add(article);
+            }
+        }
+        this.notifyDataSetChanged();
     }
 }
 
