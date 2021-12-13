@@ -15,7 +15,7 @@
     <item
         android:id="@+id/itm_user_ask"
         android:icon="@drawable/ic_baseline_supervised_user_circle_24"
-        android:title="Ask Doctor"
+        android:title="List Doctor"
         app:showAsAction="always" />
     <item
         android:id="@+id/itm_user_es"

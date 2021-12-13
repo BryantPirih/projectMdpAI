@@ -109,8 +109,6 @@ public class readArticle extends AppCompatActivity {
         ca = new commentAdapter(comments);
         binding.rvCommentRead.setAdapter(ca);
 
-        ca.notifyDataSetChanged();
-
         checkLike();
     }
     private void checkLike(){
@@ -197,6 +195,9 @@ public class readArticle extends AppCompatActivity {
         reference.child(key).setValue(c).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+
+                ca.notifyDataSetChanged();
+
                 Toast.makeText(getApplicationContext(), "comment article berhasil", Toast.LENGTH_SHORT).show();
 
             }
@@ -232,8 +233,6 @@ public class readArticle extends AppCompatActivity {
                 //makeToast("Failed to get data");
             }
         });
-
-
 
     }
     private void likeArticle(){
