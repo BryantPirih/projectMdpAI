@@ -167,7 +167,7 @@ public class profile extends AppCompatActivity {
                                 FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
                                 root.getReference("users/"+uid+"/password").setValue(newPassword);
                                 makeToast("Password Reset Successfully!");
-                            }).addOnFailureListener(e -> makeToast("Password Reset Failed. Password Should be at least 6 characters!"));
+                            }).addOnFailureListener(e -> makeToast(e + " Password Reset Failed. Password Should be at least 6 characters!"));
                         }catch (Exception exception){
                             System.out.println(exception);
                         }

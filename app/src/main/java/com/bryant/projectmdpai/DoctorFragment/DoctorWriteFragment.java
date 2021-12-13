@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bryant.projectmdpai.Class.Article;
+import com.bryant.projectmdpai.DoctorHome;
 import com.bryant.projectmdpai.R;
 import com.bryant.projectmdpai.databinding.FragmentDoctorWriteBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -134,6 +135,15 @@ public class DoctorWriteFragment extends Fragment {
                 binding.edtDocContentArticle.setText("");
                 binding.edtDocTitleArticle.setText("");
                 binding.imgArticle.setImageBitmap(null);
+            }
+        });
+
+        binding.btnBackToHomeD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toHome = new Intent(getContext(), DoctorHome.class);
+                toHome.putExtra("uid", uid);
+                startActivity(toHome);
             }
         });
 
