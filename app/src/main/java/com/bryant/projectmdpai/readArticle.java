@@ -112,7 +112,6 @@ public class readArticle extends AppCompatActivity {
         ca.notifyDataSetChanged();
 
         checkLike();
-        //Toast.makeText(this, articles.get(0).getId(), Toast.LENGTH_SHORT).show();
     }
     private void checkLike(){
         for (int i = 0; i < likes.size(); i++) {
@@ -165,27 +164,28 @@ public class readArticle extends AppCompatActivity {
             }
             commentArticle(tempUsername);
         }
-//        getData(new FirebaseCallback() {
-//            @Override
-//            public void onCallbackUsernameRole(String username, String r) {
-//                tempUsername=username;
-//                role=r;
-//            }
-//
-//            @Override
-//            public void onCallbackLike(ArrayList<like> l) {
-//                likes=l;
-//            }
-//
-//            @Override
-//            public void onCallbackComment(ArrayList<comment> c) {
-//                comments=c;
-//            }
-//        });
+        getData(new FirebaseCallback() {
+            @Override
+            public void onCallbackUsernameRole(String username, String r) {
+                tempUsername=username;
+                role=r;
+            }
+
+            @Override
+            public void onCallbackLike(ArrayList<like> l) {
+                likes=l;
+            }
+
+            @Override
+            public void onCallbackComment(ArrayList<comment> c) {
+                comments=c;
+            }
+        });
         binding.edtComment.setText("");
         ca.notifyDataSetChanged();
     }
     private void commentArticle(String u){
+
         DatabaseReference reference = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
                 .getReference("comment");
@@ -210,9 +210,8 @@ public class readArticle extends AppCompatActivity {
 
         DatabaseReference dbRef = FirebaseDatabase
                 .getInstance(getResources().getString(R.string.url_db))
-                .getReference().child("comment");
+                .getReference().child("articles");
 
-        //get user password
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -220,6 +219,9 @@ public class readArticle extends AppCompatActivity {
                     if (snapshot.hasChild(keyArticle)){
                         DataSnapshot userSnapshot = snapshot.child(keyArticle);
                         commented = Integer.parseInt(userSnapshot.child("jumlahComment").getValue().toString());
+                        commented+=1;
+                        FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                        root.getReference("articles/"+keyArticle+"/jumlahComment").setValue(commented);
                     }
                 }catch (Exception ex){
                     System.out.println(ex.getMessage());
@@ -230,9 +232,7 @@ public class readArticle extends AppCompatActivity {
                 //makeToast("Failed to get data");
             }
         });
-        commented+=1;
-        FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-        root.getReference("articles/"+keyArticle+"/jumlahComment").setValue(commented);
+
 
 
     }
@@ -242,10 +242,11 @@ public class readArticle extends AppCompatActivity {
                 .getInstance(getResources().getString(R.string.url_db))
                 .getReference("like");
 
+        DatabaseReference pushedRef = reference.push();
+        String key = pushedRef.getKey();
 
-        DatabaseReference pushedRef = reference.child(keyArticle).push();
-        like l = new like(keyArticle,uid);
-        reference.child(keyArticle).setValue(l).addOnSuccessListener(new OnSuccessListener<Void>() {
+        like l = new like(key,keyArticle,uid);
+        reference.child(key).setValue(l).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(getApplicationContext(), "like article berhasil", Toast.LENGTH_SHORT).show();
@@ -264,7 +265,7 @@ public class readArticle extends AppCompatActivity {
                 .getInstance(getResources().getString(R.string.url_db))
                 .getReference().child("articles");
 
-        //get user password
+
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -272,6 +273,9 @@ public class readArticle extends AppCompatActivity {
                     if (snapshot.hasChild(keyArticle)){
                         DataSnapshot userSnapshot = snapshot.child(keyArticle);
                         liked = Integer.parseInt(userSnapshot.child("jumlahLike").getValue().toString());
+                        liked+=1;
+                        FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
+                        root.getReference("articles/"+keyArticle+"/jumlahLike").setValue(liked);
                     }
                 }catch (Exception ex){
                     System.out.println(ex.getMessage());
@@ -282,9 +286,6 @@ public class readArticle extends AppCompatActivity {
                 //makeToast("Failed to get data");
             }
         });
-        liked+=1;
-        FirebaseDatabase root = FirebaseDatabase.getInstance(getResources().getString(R.string.url_db));
-        root.getReference("articles/"+keyArticle+"/jumlahLike").setValue(liked);
 
     }
     private void unLikeArticle(){
@@ -306,8 +307,9 @@ public class readArticle extends AppCompatActivity {
                 for (DataSnapshot ds: snapshot.getChildren() ) {
                     try {
                         String id_article = ds.child("id_article").getValue().toString();
+                        String id_like = ds.child("id_like").getValue().toString();
                         String id_user = ds.child("id_user").getValue().toString();
-                        likes.add( new like(id_article,id_user));
+                        likes.add( new like(id_like,id_article,id_user));
                         System.out.println("Size of likes : "+likes.size());
                         f.onCallbackLike(likes);
                     }catch (Exception e){

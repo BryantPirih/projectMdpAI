@@ -5,14 +5,17 @@ import android.os.Parcelable;
 
 public class like implements Parcelable {
     private String id_article;
+    private String id_like;
     private String id_user;
 
-    public like(String id_article, String id_user) {
+    public like( String id_like,String id_article, String id_user) {
+        this.id_like = id_like;
         this.id_article = id_article;
         this.id_user = id_user;
     }
 
     protected like(Parcel in) {
+        id_article = in.readString();
         id_article = in.readString();
         id_user = in.readString();
 
@@ -27,6 +30,14 @@ public class like implements Parcelable {
             return new like[size];
         }
     };
+
+    public String getId_like() {
+        return id_like;
+    }
+
+    public void setId_like(String id_like) {
+        this.id_like = id_like;
+    }
 
     public String getId_article() {
         return id_article;
@@ -52,6 +63,7 @@ public class like implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id_article);
-        parcel.writeString(id_article);
+        parcel.writeString(id_like);
+        parcel.writeString(id_user);
     }
 }
